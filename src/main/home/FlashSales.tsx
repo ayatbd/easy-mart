@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Container from "@/components/modules/Container";
+import Label from "@/components/modules/Label";
 
 // --- Types ---
 interface Product {
@@ -21,7 +23,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "1",
     name: "HAVIT HV-G92 Gamepad",
-    image: "/gamepad.png", // Replace with your image paths
+    image: "/gamepad.png",
     price: 120,
     oldPrice: 160,
     discount: 40,
@@ -81,10 +83,10 @@ const StarRating = ({ rating }: { rating: number }) => {
           key={star}
           className={`w-4 h-4 ${
             star <= rating
-              ? "text-[#FFAD33]" // Full Star
+              ? "text-[#FFAD33]"
               : star - 0.5 === rating
-                ? "text-[#FFAD33]" // Half Star (simplified visually as full for standard SVGs, or custom implementation)
-                : "text-gray-300" // Empty Star
+                ? "text-[#FFAD33]"
+                : "text-gray-300"
           }`}
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -142,225 +144,227 @@ export default function FlashSales() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      {/* --- Section Header --- */}
-      <div className="mb-8">
-        {/* "Today's" Label */}
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-5 h-10 bg-[#DB4444] rounded-sm"></div>
-          <span className="text-[#DB4444] font-semibold text-base">
-            Today&apos;s
-          </span>
-        </div>
+    <Container>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* --- Section Header --- */}
+        <div className="mb-8">
+          {/* "Today's" Label */}
+          <Label>Today&apos;s</Label>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            {/* Title and Countdown */}
+            <div className="flex flex-col md:flex-row md:items-end gap-10 md:gap-20">
+              <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wider">
+                Flash Sales
+              </h2>
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          {/* Title and Countdown */}
-          <div className="flex flex-col md:flex-row md:items-end gap-10 md:gap-20">
-            <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wider">
-              Flash Sales
-            </h2>
-
-            {/* Countdown Timer */}
-            <div className="flex items-center gap-4 text-black">
-              <div className="flex flex-col">
-                <span className="text-xs font-medium">Days</span>
-                <span className="text-3xl font-bold leading-none">
-                  {timeLeft.days.toString().padStart(2, "0")}
+              {/* Countdown Timer */}
+              <div className="flex items-center gap-4 text-black">
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium">Days</span>
+                  <span className="text-3xl font-bold leading-none">
+                    {timeLeft.days.toString().padStart(2, "0")}
+                  </span>
+                </div>
+                <span className="text-[#DB4444] text-2xl font-bold mt-3">
+                  :
                 </span>
-              </div>
-              <span className="text-[#DB4444] text-2xl font-bold mt-3">:</span>
-              <div className="flex flex-col">
-                <span className="text-xs font-medium">Hours</span>
-                <span className="text-3xl font-bold leading-none">
-                  {timeLeft.hours.toString().padStart(2, "0")}
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium">Hours</span>
+                  <span className="text-3xl font-bold leading-none">
+                    {timeLeft.hours.toString().padStart(2, "0")}
+                  </span>
+                </div>
+                <span className="text-[#DB4444] text-2xl font-bold mt-3">
+                  :
                 </span>
-              </div>
-              <span className="text-[#DB4444] text-2xl font-bold mt-3">:</span>
-              <div className="flex flex-col">
-                <span className="text-xs font-medium">Minutes</span>
-                <span className="text-3xl font-bold leading-none">
-                  {timeLeft.minutes.toString().padStart(2, "0")}
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium">Minutes</span>
+                  <span className="text-3xl font-bold leading-none">
+                    {timeLeft.minutes.toString().padStart(2, "0")}
+                  </span>
+                </div>
+                <span className="text-[#DB4444] text-2xl font-bold mt-3">
+                  :
                 </span>
-              </div>
-              <span className="text-[#DB4444] text-2xl font-bold mt-3">:</span>
-              <div className="flex flex-col">
-                <span className="text-xs font-medium">Seconds</span>
-                <span className="text-3xl font-bold leading-none">
-                  {timeLeft.seconds.toString().padStart(2, "0")}
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium">Seconds</span>
+                  <span className="text-3xl font-bold leading-none">
+                    {timeLeft.seconds.toString().padStart(2, "0")}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Navigation Arrows */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => scroll("left")}
-              className="w-11 h-11 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-              aria-label="Scroll Left"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6"
+            {/* Navigation Arrows */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => scroll("left")}
+                className="w-11 h-11 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                aria-label="Scroll Left"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-                />
-              </svg>
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              className="w-11 h-11 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-              aria-label="Scroll Right"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="w-11 h-11 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                aria-label="Scroll Right"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* --- Product Carousel --- */}
-      <div
-        ref={scrollRef}
-        className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-      >
-        {flashSalesProducts.map((product) => (
-          <div
-            key={product.id}
-            className="min-w-[270px] snap-start group cursor-pointer"
-          >
-            {/* Image Container with Hover Effect */}
-            <div className="relative bg-[#F5F5F5] rounded-md h-[250px] flex items-center justify-center overflow-hidden mb-4 p-4">
-              {/* Discount Badge */}
-              <div className="absolute top-3 left-3 bg-[#DB4444] text-white text-xs font-medium px-3 py-1 rounded-md z-10">
-                -{product.discount}%
-              </div>
-
-              {/* Action Icons */}
-              <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-                <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
-                  {/* Heart Icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="black"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                    />
-                  </svg>
-                </button>
-                <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
-                  {/* Eye Icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="black"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              {/* Product Image */}
-              <div className="relative w-full h-[150px]">
-                {/* Note: Ensure placeholder images exist in your public folder, or use an external URL for testing */}
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-
-              {/* Add To Cart Button (Reveals on Hover) */}
-              <button className="absolute bottom-0 left-0 w-full bg-black text-white py-2.5 font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                Add To Cart
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                  />
+                </svg>
               </button>
             </div>
+          </div>
+        </div>
 
-            {/* Product Details */}
-            <div className="flex flex-col gap-1">
-              <h3 className="text-black font-medium truncate">
-                {product.name}
-              </h3>
-              <div className="flex items-center gap-3">
-                <span className="text-[#DB4444] font-medium">
-                  ${product.price}
-                </span>
-                <span className="text-gray-500 line-through font-medium">
-                  ${product.oldPrice}
-                </span>
+        {/* --- Product Carousel --- */}
+        <div
+          ref={scrollRef}
+          className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {flashSalesProducts.map((product) => (
+            <div
+              key={product.id}
+              className="min-w-[260px] snap-start group cursor-pointer"
+            >
+              {/* Image Container with Hover Effect */}
+              <div className="relative bg-[#F5F5F5] rounded-md h-[250px] flex items-center justify-center overflow-hidden mb-4 p-4">
+                {/* Discount Badge */}
+                <div className="absolute top-3 left-3 bg-[#DB4444] text-white text-xs font-medium px-3 py-1 rounded-md z-10">
+                  -{product.discount}%
+                </div>
+
+                {/* Action Icons */}
+                <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
+                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
+                    {/* Heart Icon */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="black"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                      />
+                    </svg>
+                  </button>
+                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
+                    {/* Eye Icon */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="black"
+                      className="w-5 h-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Product Image */}
+                <div className="relative w-full h-[150px]">
+                  {/* Note: Ensure placeholder images exist in your public folder, or use an external URL for testing */}
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+
+                {/* Add To Cart Button (Reveals on Hover) */}
+                <button className="absolute bottom-0 left-0 w-full bg-black text-white py-2.5 font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  Add To Cart
+                </button>
               </div>
 
-              <div className="flex items-center gap-2 mt-1">
-                <StarRating rating={product.rating} />
-                <span className="text-gray-500 text-sm font-semibold">
-                  ({product.reviews})
-                </span>
+              {/* Product Details */}
+              <div className="flex flex-col gap-1">
+                <h3 className="text-black font-medium truncate">
+                  {product.name}
+                </h3>
+                <div className="flex items-center gap-3">
+                  <span className="text-[#DB4444] font-medium">
+                    ${product.price}
+                  </span>
+                  <span className="text-gray-500 line-through font-medium">
+                    ${product.oldPrice}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2 mt-1">
+                  <StarRating rating={product.rating} />
+                  <span className="text-gray-500 text-sm font-semibold">
+                    ({product.reviews})
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* --- View All Button --- */}
-      <div className="mt-12 flex justify-center">
-        <Link
-          href="/products"
-          className="bg-[#DB4444] text-white px-12 py-3.5 rounded-sm font-medium hover:bg-red-600 transition-colors"
-        >
-          View All Products
-        </Link>
-      </div>
+        {/* --- View All Button --- */}
+        <div className="mt-12 flex justify-center">
+          <Link
+            href="/products"
+            className="bg-[#DB4444] text-white px-12 py-3.5 rounded-sm font-medium hover:bg-red-600 transition-colors"
+          >
+            View All Products
+          </Link>
+        </div>
 
-      {/* Add global style block just to hide the webkit scrollbar for a cleaner UI if tailwind plugin isn't installed */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `,
-        }}
-      />
-    </section>
+        {/* Add global style block just to hide the webkit scrollbar for a cleaner UI if tailwind plugin isn't installed */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+            .hide-scrollbar::-webkit-scrollbar {
+              display: none;
+            }
+          `,
+          }}
+        />
+      </section>
+    </Container>
   );
 }

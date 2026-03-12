@@ -1,3 +1,4 @@
+import BrowseCategories from "@/main/home/BrowseCategories";
 import FlashSales from "@/main/home/FlashSales";
 import Header from "@/main/home/Header";
 import HeroSection from "@/main/home/HeroSection";
@@ -10,6 +11,7 @@ export default function Home() {
       <Header />
       <HeroSection />
       <FlashSales />
+      <BrowseCategories />
     </div>
   );
 }
