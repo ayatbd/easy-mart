@@ -197,7 +197,7 @@ const categories: Category[] = [
   { id: "1", name: "Phones", icon: <PhoneIcon /> },
   { id: "2", name: "Computers", icon: <ComputerIcon /> },
   { id: "3", name: "SmartWatch", icon: <SmartWatchIcon /> },
-  { id: "4", name: "Camera", icon: <CameraIcon /> }, // This one will be set as active by default to match your image
+  { id: "4", name: "Camera", icon: <CameraIcon /> },
   { id: "5", name: "HeadPhones", icon: <HeadphoneIcon /> },
   { id: "6", name: "Gaming", icon: <GamingIcon /> },
 ];
@@ -209,7 +209,7 @@ export default function BrowseCategories() {
   // --- Scroll Logic ---
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const scrollAmount = 200; // Adjusted scroll amount for category cards
+      const scrollAmount = 200;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -222,7 +222,6 @@ export default function BrowseCategories() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* --- Section Header --- */}
         <div className="mb-10">
-          {/* "Categories" Label */}
           <Label>Categories</Label>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -231,7 +230,6 @@ export default function BrowseCategories() {
               Browse By Category
             </h2>
 
-            {/* Navigation Arrows */}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => scroll("left")}
@@ -277,7 +275,7 @@ export default function BrowseCategories() {
           </div>
         </div>
 
-        {/* --- Category Grid / Carousel --- */}
+        {/* --- Carousel --- */}
         <div
           ref={scrollRef}
           className="flex gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
@@ -291,7 +289,7 @@ export default function BrowseCategories() {
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
                 className={`
-                min-w-[170px] h-[145px] snap-start cursor-pointer 
+                min-w-42.5 h-36.25 snap-start cursor-pointer 
                 flex flex-col items-center justify-center gap-4 
                 border rounded-md transition-all duration-300
                 ${

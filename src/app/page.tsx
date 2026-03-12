@@ -1,3 +1,4 @@
+import BestSellingProducts from "@/main/home/BestSellingProducts";
 import BrowseCategories from "@/main/home/BrowseCategories";
 import FlashSales from "@/main/home/FlashSales";
 import Header from "@/main/home/Header";
@@ -12,6 +13,7 @@ export default function Home() {
       <HeroSection />
       <FlashSales />
       <BrowseCategories />
+      <BestSellingProducts />
     </div>
   );
 }
