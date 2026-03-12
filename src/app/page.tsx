@@ -1,5 +1,6 @@
 import BestSellingProducts from "@/main/home/BestSellingProducts";
 import BrowseCategories from "@/main/home/BrowseCategories";
+import ExploreProducts from "@/main/home/ExploreProducts";
 import FlashSales from "@/main/home/FlashSales";
 import Header from "@/main/home/Header";
 import HeroSection from "@/main/home/HeroSection";
@@ -16,6 +17,7 @@ export default function Home() {
       <BrowseCategories />
       <BestSellingProducts />
       <PromoBanner />
+      <ExploreProducts />
     </div>
   );
 }
