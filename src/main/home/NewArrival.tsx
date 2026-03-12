@@ -1,17 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Label from "@/components/modules/Label";
 
 export default function NewArrival() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="mb-12">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-5 h-10 bg-[#DB4444] rounded-sm"></div>
-          <span className="text-[#DB4444] font-semibold text-base tracking-wide">
-            Featured
-          </span>
-        </div>
+        <Label>Featured</Label>
         <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wider">
           New Arrival
         </h2>
