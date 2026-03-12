@@ -1,7 +1,7 @@
 import React from "react";
 
-const Container = () => {
-  return <div className="md:min-w-295"></div>;
+const Container = ({ children }: { children: React.ReactNode }) => {
+  return <div className="md:max-w-295 mx-auto">{children}</div>;
 };
 
 export default Container;

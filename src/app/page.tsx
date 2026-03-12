@@ -1,4 +1,5 @@
 import Header from "@/main/home/Header";
+import HeroSection from "@/main/home/HeroSection";
 import TopHeader from "@/main/home/TopHeader";
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
     <div>
       <TopHeader />
       <Header />
+      <HeroSection />
     </div>
   );
 }
