@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/modules/Container";
 
-export default function SignUp() {
+export default function SignIn() {
   return (
     <Container>
       <div className="w-full flex flex-col lg:flex-row items-center py-14 lg:py-20">
@@ -22,16 +22,11 @@ export default function SignUp() {
         <div className="w-full lg:w-1/2 flex items-center justify-center px-4 sm:px-10 lg:px-24">
           <div className="w-full max-w-100 flex flex-col">
             <h1 className="text-3xl sm:text-4xl font-medium tracking-wide mb-4 text-black">
-              Create an account
+              Sign up to Easy Mart
             </h1>
             <p className="text-black mb-12">Enter your details below</p>
 
             <form className="flex flex-col gap-10">
-              <input
-                type="text"
-                placeholder="Name"
-                className="w-full border-b border-gray-300 py-1 bg-transparent text-black placeholder-gray-500 focus:outline-none focus:border-black transition-colors"
-              />
               <input
                 type="text"
                 placeholder="Email or Phone Number"
@@ -48,7 +43,7 @@ export default function SignUp() {
                   type="submit"
                   className="w-full bg-[#DB4444] text-white py-2 rounded-sm font-medium hover:bg-[#c93d3d] transition-colors"
                 >
-                  Create Account
+                  Sign in
                 </button>
 
                 <button
@@ -85,12 +80,11 @@ export default function SignUp() {
             </form>
 
             <div className="flex items-center justify-center gap-4 mt-8">
-              <span className="text-gray-600">Already have account?</span>
               <Link
-                href="/signin"
+                href="/login"
                 className="text-black font-medium border-b border-black pb-px hover:text-gray-600 hover:border-gray-600 transition-colors"
               >
-                Sign in
+                Forgot Password
               </Link>
             </div>
           </div>

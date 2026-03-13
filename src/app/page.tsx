@@ -1,20 +1,15 @@
-import BestSellingProducts from "@/main/home/BestSellingProducts";
-import BrowseCategories from "@/main/home/BrowseCategories";
-import ExploreProducts from "@/main/home/ExploreProducts";
-import FlashSales from "@/main/home/FlashSales";
-import Footer from "@/main/home/Footer";
-import Header from "@/main/home/Header";
-import HeroSection from "@/main/home/HeroSection";
-import NewArrival from "@/main/home/NewArrival";
-import PromoBanner from "@/main/home/PromoBanner";
-import ServicesSection from "@/main/home/ServicesSection";
-import TopHeader from "@/main/home/TopHeader";
+import BestSellingProducts from "@/components/main/home/BestSellingProducts";
+import BrowseCategories from "@/components/main/home/BrowseCategories";
+import ExploreProducts from "@/components/main/home/ExploreProducts";
+import FlashSales from "@/components/main/home/FlashSales";
+import HeroSection from "@/components/main/home/HeroSection";
+import NewArrival from "@/components/main/home/NewArrival";
+import PromoBanner from "@/components/main/home/PromoBanner";
+import ServicesSection from "@/components/main/home/ServicesSection";
 
 export default function Home() {
   return (
     <div>
-      <TopHeader />
-      <Header />
       <HeroSection />
       <FlashSales />
       <BrowseCategories />
@@ -23,7 +18,6 @@ export default function Home() {
       <ExploreProducts />
       <NewArrival />
       <ServicesSection />
-      <Footer />
     </div>
   );
 }

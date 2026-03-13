@@ -1,11 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import Container from "@/components/modules/Container";
+import TopHeader from "../main/home/TopHeader";
 
 const Header: React.FC = () => {
   return (
     <div className="border-b border-gray-200">
       <Container>
+        <TopHeader />
         <header className="w-full bg-white">
           <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-20">
             {/* Left: Logo */}
