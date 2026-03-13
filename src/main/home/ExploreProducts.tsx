@@ -23,7 +23,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "1",
     name: "HAVIT HV-G92 Gamepad",
-    image: "/gamepad.png",
+    image: "/images/main/exploreProducts/image1.png",
     price: 120,
     oldPrice: 160,
     discount: 40,
@@ -33,7 +33,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "2",
     name: "AK-900 Wired Keyboard",
-    image: "/keyboard.png",
+    image: "/images/main/exploreProducts/image2.png",
     price: 960,
     oldPrice: 1160,
     discount: 35,
@@ -43,7 +43,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "3",
     name: "IPS LCD Gaming Monitor",
-    image: "/monitor.png",
+    image: "/images/main/exploreProducts/image3.png",
     price: 370,
     oldPrice: 400,
     discount: 30,
@@ -53,7 +53,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "4",
     name: "S-Series Comfort Chair",
-    image: "/chair.png",
+    image: "/images/main/exploreProducts/image4.png",
     price: 375,
     oldPrice: 400,
     discount: 25,
@@ -63,7 +63,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "5",
     name: "S-Series Comfort Chair 2",
-    image: "/chair.png",
+    image: "/images/main/exploreProducts/image5.png",
     price: 375,
     oldPrice: 400,
     discount: 25,
@@ -73,7 +73,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "6",
     name: "S-Series Comfort Chair 2",
-    image: "/chair.png",
+    image: "/images/main/exploreProducts/image6.png",
     price: 375,
     oldPrice: 400,
     discount: 25,
@@ -83,7 +83,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "7",
     name: "S-Series Comfort Chair 2",
-    image: "/chair.png",
+    image: "/images/main/exploreProducts/image7.png",
     price: 375,
     oldPrice: 400,
     discount: 25,
@@ -93,7 +93,7 @@ const flashSalesProducts: Product[] = [
   {
     id: "8",
     name: "S-Series Comfort Chair 2",
-    image: "/chair.png",
+    image: "/images/main/exploreProducts/image8.png",
     price: 375,
     oldPrice: 400,
     discount: 25,

@@ -7,6 +7,7 @@ import Header from "@/main/home/Header";
 import HeroSection from "@/main/home/HeroSection";
 import NewArrival from "@/main/home/NewArrival";
 import PromoBanner from "@/main/home/PromoBanner";
+import ServicesSection from "@/main/home/ServicesSection";
 import TopHeader from "@/main/home/TopHeader";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <PromoBanner />
       <ExploreProducts />
       <NewArrival />
+      <ServicesSection />
       <Footer />
     </div>
   );
