@@ -1,19 +1,16 @@
-"use client"; // Required in Next.js App Router for interactive client components
+"use client";
 
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
-// Import required modules
 import { Pagination, Autoplay } from "swiper/modules";
 import Container from "@/components/modules/Container";
 
-// Type definitions
+// Types
 interface Category {
   name: string;
   hasSub: boolean;
@@ -36,8 +33,7 @@ const HeroSection: React.FC = () => {
   return (
     <Container>
       <section className="max-w-7xl mx-auto flex px-4 sm:px-6 lg:px-8">
-        {/* Left Sidebar Navigation */}
-        <aside className="hidden lg:flex flex-col w-[250px] border-r border-gray-200 pt-10 pr-6">
+        <aside className="hidden lg:flex flex-col w-62.5 border-r border-gray-200 pt-10 pr-6">
           <ul className="flex flex-col gap-4">
             {categories.map((cat, index) => (
               <li key={index}>
@@ -68,9 +64,8 @@ const HeroSection: React.FC = () => {
           </ul>
         </aside>
 
-        {/* Right Hero Slider (Swiper) */}
+        {/* Swiper */}
         <main className="flex-1 lg:pl-10 pt-10 w-full overflow-hidden">
-          {/* Tailwind arbitrary variants to style Swiper pagination dots to match the design perfectly */}
           <div
             className="
           w-full h-full relative[&_.swiper-pagination-bullet]:bg-gray-500
@@ -83,17 +78,15 @@ const HeroSection: React.FC = () => {
             <Swiper
               modules={[Pagination, Autoplay]}
               pagination={{ clickable: true }}
-              autoplay={{ delay: 4000, disableOnInteraction: false }}
+              autoplay={{ delay: 40000, disableOnInteraction: false }}
               loop={true}
-              className="h-[350px] md:h-[400px] w-full bg-black text-white rounded-none md:rounded-lg overflow-hidden"
+              className="h-87.5 md:h-100 w-full bg-black text-white rounded-none md:rounded-lg overflow-hidden"
             >
               {/* Slide 1 */}
               <SwiperSlide>
                 <div className="flex w-full h-full relative">
-                  {/* Text Content */}
                   <div className="flex flex-col justify-center pl-8 md:pl-16 z-10 w-full md:w-1/2">
                     <div className="flex items-center gap-4 mb-5">
-                      {/* Apple Logo SVG */}
                       <svg
                         viewBox="0 0 384 512"
                         width="40"
@@ -133,15 +126,13 @@ const HeroSection: React.FC = () => {
                     </Link>
                   </div>
 
-                  {/* Hero Image */}
                   <div className="absolute right-0 bottom-0 md:relative md:w-1/2 flex justify-end h-full">
-                    {/* Replace '/iphone-hero.png' with your actual image path in the public folder */}
-                    <div className="relative w-[80%] h-[90%] md:h-full mt-auto">
+                    <div className="relative w-full h-[90%] md:h-full mt-auto">
                       <Image
-                        src="/iphone-hero.png" // Update this path to your actual iPhone image
+                        src="/images/main/hero/image.png"
                         alt="iPhone 14 Series Banner"
                         fill
-                        className="object-contain object-bottom md:object-right-bottom drop-shadow-2xl"
+                        className="object-contain object-bottom md:object-center drop-shadow-2xl"
                         priority
                       />
                     </div>
@@ -149,7 +140,6 @@ const HeroSection: React.FC = () => {
                 </div>
               </SwiperSlide>
 
-              {/* Slide 2 (Dummy slide for illustration) */}
               <SwiperSlide>
                 <div className="flex w-full h-full items-center justify-center bg-black">
                   <h2 className="text-white text-3xl">Slide 2 Content Here</h2>

@@ -20,7 +20,7 @@ const bestSellingProducts: Product[] = [
   {
     id: "1",
     name: "The North Coat",
-    image: "/coat.png",
+    image: "/images/main/best-selling/image1.png",
     price: 260,
     oldPrice: 360,
     rating: 5,
@@ -29,7 +29,7 @@ const bestSellingProducts: Product[] = [
   {
     id: "2",
     name: "Gucci Duffle Bag",
-    image: "/bag.png",
+    image: "/images/main/best-selling/image2.png",
     price: 960,
     oldPrice: 1160,
     rating: 4.5,
@@ -38,7 +38,7 @@ const bestSellingProducts: Product[] = [
   {
     id: "3",
     name: "RGB Liquid CPU Cooler",
-    image: "/cooler.png",
+    image: "/images/main/best-selling/image3.png",
     price: 160,
     oldPrice: 170,
     rating: 4.5,
@@ -47,7 +47,7 @@ const bestSellingProducts: Product[] = [
   {
     id: "4",
     name: "Small Bookshelf",
-    image: "/bookshelf.png",
+    image: "/images/main/best-selling/image4.png",
     price: 360,
     rating: 5,
     reviews: 65,

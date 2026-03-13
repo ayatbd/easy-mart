@@ -80,7 +80,7 @@ export default function PromoBanner() {
 
             <div className="relative z-10 w-full max-w-125 lg:max-w-150 drop-shadow-2xl transform hover:scale-105 transition-transform duration-500">
               <Image
-                src="/jbl-speaker.png"
+                src="/images/main/promoBanner/image.png"
                 alt="JBL Boombox Speaker"
                 width={600}
                 height={420}
