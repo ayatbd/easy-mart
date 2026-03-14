@@ -114,7 +114,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 export default function BestSellingProducts() {
   return (
     <Container>
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-10">
           <Label>Best Selling</Label>
 
@@ -125,7 +125,7 @@ export default function BestSellingProducts() {
 
             <Link
               href="/products"
-              className="bg-[#DB4444] text-white px-10 py-3 rounded-sm font-medium hover:bg-red-600 transition-colors whitespace-nowrap text-center"
+              className="bg-[#DB4444] text-white px-10 py-2 rounded-sm font-medium hover:bg-red-600 transition-colors whitespace-nowrap text-center"
             >
               View All
             </Link>

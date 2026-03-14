@@ -69,7 +69,7 @@ export default function PromoBanner() {
 
             <Link
               href="/buy"
-              className="bg-[#00FF66] text-white px-10 py-3.5 rounded-sm font-medium text-base hover:bg-[#00E65C] transition-colors"
+              className="bg-[#00FF66] text-white px-10 py-2 rounded-sm font-medium text-base hover:bg-[#00E65C] transition-colors"
             >
               Buy Now!
             </Link>
