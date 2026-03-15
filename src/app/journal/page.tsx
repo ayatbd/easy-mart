@@ -95,9 +95,7 @@ export default function Journal() {
     );
 
   return (
-    // pt-32 accounts for the fixed sticky header
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 min-h-screen">
-      {/* Page Header */}
       <div className="mb-12 text-center max-w-2xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-4">
           The AURA Journal
@@ -108,13 +106,11 @@ export default function Journal() {
         </p>
       </div>
 
-      {/* --- Featured Post --- */}
       {featuredPost && activeCategory === "All" && (
         <section className="mb-16">
           <Link href={`/journal/${featuredPost.id}`} className="group block">
             <div className="bg-gray-50 rounded-3xl overflow-hidden flex flex-col lg:flex-row border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500">
-              {/* Image Half */}
-              <div className="w-full lg:w-3/5 h-[300px] lg:h-[450px] relative overflow-hidden">
+              <div className="w-full lg:w-3/5 h-75 lg:h-112.5 relative overflow-hidden">
                 <Image
                   src={featuredPost.image}
                   alt={featuredPost.title}
@@ -129,7 +125,6 @@ export default function Journal() {
                 </div>
               </div>
 
-              {/* Content Half */}
               <div className="w-full lg:w-2/5 p-8 lg:p-12 flex flex-col justify-center">
                 <div className="flex items-center gap-3 text-sm text-gray-500 mb-4 font-medium">
                   <span className="text-emerald-600">
@@ -170,7 +165,6 @@ export default function Journal() {
         </section>
       )}
 
-      {/* --- Category Filters --- */}
       <section className="mb-12 flex items-center justify-start md:justify-center overflow-x-auto hide-scrollbar pb-2">
         <div className="flex gap-2 p-1 bg-gray-50 rounded-full border border-gray-100">
           {categories.map((category) => (
@@ -189,7 +183,6 @@ export default function Journal() {
         </div>
       </section>
 
-      {/* --- Article Grid --- */}
       <section className="mb-24">
         {gridPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
@@ -199,8 +192,7 @@ export default function Journal() {
                 href={`/journal/${post.id}`}
                 className="group flex flex-col"
               >
-                {/* Thumbnail */}
-                <div className="relative w-full h-[240px] rounded-3xl overflow-hidden mb-6 bg-gray-100 shadow-sm">
+                <div className="relative w-full h-60 rounded-3xl overflow-hidden mb-6 bg-gray-100 shadow-sm">
                   <Image
                     src={post.image}
                     alt={post.title}
@@ -263,9 +255,7 @@ export default function Journal() {
         )}
       </section>
 
-      {/* --- Newsletter CTA --- */}
       <section className="bg-emerald-900 rounded-3xl p-8 sm:p-16 relative overflow-hidden text-center flex flex-col items-center">
-        {/* Background decorative circles */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-800 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-emerald-700 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/2 translate-y-1/2"></div>
 

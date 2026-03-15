@@ -110,19 +110,19 @@ const teamMembers: TeamMember[] = [
     id: "1",
     name: "Tom Cruise",
     role: "Founder & Chairman",
-    image: "/team-1.png",
+    image: "/images/about/image2.jpg",
   },
   {
     id: "2",
     name: "Emma Watson",
     role: "Managing Director",
-    image: "/team-2.png",
+    image: "/images/about/image3.jpg",
   },
   {
     id: "3",
     name: "Will Smith",
     role: "Product Designer",
-    image: "/team-3.png",
+    image: "/images/about/image4.jpg",
   },
 ];
 
@@ -137,11 +137,11 @@ export default function About() {
             </h1>
             <div className="space-y-6 text-gray-600 leading-relaxed text-lg">
               <p>
-                Launched in 2015, AURA is South Asia's premier online shopping
-                mall with an active presence in Bangladesh. Supported by a wide
-                range of tailored marketing, data, and service solutions, AURA
-                has 10,500 sellers and 300 brands and serves 3 million customers
-                across the region.
+                Launched in 2015, AURA is South Asia&apos;s premier online
+                shopping mall with an active presence in Bangladesh. Supported
+                by a wide range of tailored marketing, data, and service
+                solutions, AURA has 10,500 sellers and 300 brands and serves 3
+                million customers across the region.
               </p>
               <p>
                 AURA has more than 1 Million products to offer, growing at a
@@ -154,7 +154,7 @@ export default function About() {
 
           <div className="w-full lg:w-1/2 relative h-100 sm:h-125 lg:h-150 rounded-3xl overflow-hidden shadow-2xl">
             <Image
-              src="/about-hero.png"
+              src="/images/about/image1.jpg"
               alt="People shopping and smiling"
               fill
               className="object-cover"
