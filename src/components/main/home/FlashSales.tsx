@@ -146,18 +146,14 @@ export default function FlashSales() {
   return (
     <Container>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* --- Section Header --- */}
         <div className="mb-8">
-          {/* "Today's" Label */}
           <Label>Today&apos;s</Label>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            {/* Title and Countdown */}
             <div className="flex flex-col md:flex-row md:items-end gap-10 md:gap-20">
               <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wider">
                 Flash Sales
               </h2>
 
-              {/* Countdown Timer */}
               <div className="flex items-center gap-4 text-black">
                 <div className="flex flex-col">
                   <span className="text-xs font-medium">Days</span>
@@ -165,7 +161,7 @@ export default function FlashSales() {
                     {timeLeft.days.toString().padStart(2, "0")}
                   </span>
                 </div>
-                <span className="text-[#DB4444] text-2xl font-bold mt-3">
+                <span className="text-emerald-600 text-2xl font-bold mt-3">
                   :
                 </span>
                 <div className="flex flex-col">
@@ -174,7 +170,7 @@ export default function FlashSales() {
                     {timeLeft.hours.toString().padStart(2, "0")}
                   </span>
                 </div>
-                <span className="text-[#DB4444] text-2xl font-bold mt-3">
+                <span className="text-emerald-600 text-2xl font-bold mt-3">
                   :
                 </span>
                 <div className="flex flex-col">
@@ -183,7 +179,7 @@ export default function FlashSales() {
                     {timeLeft.minutes.toString().padStart(2, "0")}
                   </span>
                 </div>
-                <span className="text-[#DB4444] text-2xl font-bold mt-3">
+                <span className="text-emerald-600 text-2xl font-bold mt-3">
                   :
                 </span>
                 <div className="flex flex-col">
@@ -195,7 +191,6 @@ export default function FlashSales() {
               </div>
             </div>
 
-            {/* Navigation Arrows */}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => scroll("left")}
@@ -241,7 +236,6 @@ export default function FlashSales() {
           </div>
         </div>
 
-        {/* --- Product Carousel --- */}
         <div
           ref={scrollRef}
           className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
@@ -250,19 +244,15 @@ export default function FlashSales() {
           {flashSalesProducts.map((product) => (
             <div
               key={product.id}
-              className="min-w-[260px] snap-start group cursor-pointer"
+              className="min-w-65 snap-start group cursor-pointer"
             >
-              {/* Image Container with Hover Effect */}
-              <div className="relative bg-[#F5F5F5] rounded-md h-[250px] flex items-center justify-center overflow-hidden mb-4 p-4">
-                {/* Discount Badge */}
-                <div className="absolute top-3 left-3 bg-[#DB4444] text-white text-xs font-medium px-3 py-1 rounded-md z-10">
+              <div className="relative bg-[#F5F5F5] rounded-md h-62.5 flex items-center justify-center overflow-hidden mb-4 p-4">
+                <div className="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-medium px-3 py-1 rounded-md z-10">
                   -{product.discount}%
                 </div>
 
-                {/* Action Icons */}
                 <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
                   <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
-                    {/* Heart Icon */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -279,7 +269,6 @@ export default function FlashSales() {
                     </svg>
                   </button>
                   <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
-                    {/* Eye Icon */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -302,9 +291,7 @@ export default function FlashSales() {
                   </button>
                 </div>
 
-                {/* Product Image */}
-                <div className="relative w-full h-[150px]">
-                  {/* Note: Ensure placeholder images exist in your public folder, or use an external URL for testing */}
+                <div className="relative w-full h-37.5">
                   <Image
                     src={product.image}
                     alt={product.name}
@@ -313,13 +300,11 @@ export default function FlashSales() {
                   />
                 </div>
 
-                {/* Add To Cart Button (Reveals on Hover) */}
                 <button className="absolute bottom-0 left-0 w-full bg-black text-white py-2.5 font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   Add To Cart
                 </button>
               </div>
 
-              {/* Product Details */}
               <div className="flex flex-col gap-1">
                 <h3 className="text-black font-medium truncate">
                   {product.name}
@@ -348,7 +333,7 @@ export default function FlashSales() {
         <div className="mt-12 flex justify-center">
           <Link
             href="/products"
-            className="bg-[#DB4444] text-white px-12 py-2 rounded-sm font-medium hover:bg-red-600 transition-colors"
+            className="bg-emerald-600 text-white px-12 py-2 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
           >
             View All Products
           </Link>

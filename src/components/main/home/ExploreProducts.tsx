@@ -206,9 +206,9 @@ export default function ExploreProducts() {
           {flashSalesProducts.map((product) => (
             <div
               key={product.id}
-              className="min-w-[260px] snap-start group cursor-pointer"
+              className="min-w-65 snap-start group cursor-pointer"
             >
-              <div className="relative bg-[#F5F5F5] rounded-md h-[250px] flex items-center justify-center overflow-hidden mb-4 p-4">
+              <div className="relative bg-[#F5F5F5] rounded-md h-62.5 flex items-center justify-center overflow-hidden mb-4 p-4">
                 <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
                   <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
                     <svg
@@ -249,7 +249,7 @@ export default function ExploreProducts() {
                   </button>
                 </div>
 
-                <div className="relative w-full h-[150px]">
+                <div className="relative w-full h-37.5">
                   <Image
                     src={product.image}
                     alt={product.name}

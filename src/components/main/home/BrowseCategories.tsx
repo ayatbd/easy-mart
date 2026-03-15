@@ -220,12 +220,10 @@ export default function BrowseCategories() {
   return (
     <Container>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* --- Section Header --- */}
         <div className="mb-10">
           <Label>Categories</Label>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            {/* Title */}
             <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wide">
               Browse By Category
             </h2>
@@ -275,7 +273,6 @@ export default function BrowseCategories() {
           </div>
         </div>
 
-        {/* --- Carousel --- */}
         <div
           ref={scrollRef}
           className="flex gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
@@ -294,8 +291,8 @@ export default function BrowseCategories() {
                 border rounded-md transition-all duration-300
                 ${
                   isActive
-                    ? "bg-[#DB4444] text-white border-[#DB4444] shadow-md"
-                    : "bg-white text-black border-gray-300 hover:bg-[#DB4444] hover:text-white hover:border-[#DB4444]"
+                    ? "bg-emerald-600 text-white border-emerald-600 shadow-md"
+                    : "bg-white text-black border-gray-300 hover:bg-emerald-600 hover:text-white hover:border-emerald-600"
                 }
               `}
               >

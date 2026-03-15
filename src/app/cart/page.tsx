@@ -22,7 +22,7 @@ const initialCartItems: CartItem[] = [
     variant: "White / 1TB",
     price: 499.0,
     quantity: 1,
-    image: "/ps5.png", // Replace with your image
+    image: "/ps5.png",
   },
   {
     id: "2",
@@ -30,7 +30,7 @@ const initialCartItems: CartItem[] = [
     variant: "Midnight Black",
     price: 399.0,
     quantity: 2,
-    image: "/jbl-speaker.png", // Replace with your image
+    image: "/jbl-speaker.png",
   },
   {
     id: "3",
@@ -38,7 +38,7 @@ const initialCartItems: CartItem[] = [
     variant: "90ml",
     price: 185.0,
     quantity: 1,
-    image: "/perfume.png", // Replace with your image
+    image: "/perfume.png",
   },
 ];
 
@@ -69,7 +69,6 @@ export default function Cart() {
   const total = subtotal + shipping;
 
   return (
-    // Note: pt-32 accounts for the fixed sticky header we created earlier
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 min-h-screen">
       {/* Page Header */}
       <div className="mb-10">
@@ -82,7 +81,6 @@ export default function Cart() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        {/* --- Left Column: Cart Items --- */}
         <div className="lg:col-span-8 flex flex-col gap-6">
           {cartItems.length === 0 ? (
             <div className="text-center py-20 bg-gray-50 rounded-3xl border border-gray-100">
@@ -102,8 +100,7 @@ export default function Cart() {
                 key={item.id}
                 className="flex flex-col sm:flex-row items-center gap-6 p-4 sm:p-6 bg-white border border-gray-200 rounded-3xl hover:shadow-sm transition-shadow"
               >
-                {/* Product Image */}
-                <div className="relative w-full sm:w-32 h-32 bg-gray-50 rounded-2xl overflow-hidden flex-shrink-0">
+                <div className="relative w-full sm:w-32 h-32 bg-gray-50 rounded-2xl overflow-hidden shrink-0">
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -111,8 +108,6 @@ export default function Cart() {
                     className="object-contain p-2"
                   />
                 </div>
-
-                {/* Product Details */}
                 <div className="flex-1 flex flex-col w-full">
                   <div className="flex justify-between items-start">
                     <div>
@@ -129,7 +124,6 @@ export default function Cart() {
                   </div>
 
                   <div className="flex items-center justify-between mt-6">
-                    {/* Quantity Selector (Modern Pill Shape) */}
                     <div className="flex items-center bg-gray-50 border border-gray-200 rounded-full p-1">
                       <button
                         onClick={() =>
@@ -178,7 +172,6 @@ export default function Cart() {
                       </button>
                     </div>
 
-                    {/* Remove Item Button */}
                     <button
                       onClick={() => removeItem(item.id)}
                       className="text-gray-400 hover:text-red-500 transition-colors p-2"
@@ -206,7 +199,6 @@ export default function Cart() {
           )}
         </div>
 
-        {/* --- Right Column: Order Summary --- */}
         <div className="lg:col-span-4">
           <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 sticky top-32">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
@@ -241,7 +233,6 @@ export default function Cart() {
               </span>
             </div>
 
-            {/* Checkout Button */}
             <button
               disabled={cartItems.length === 0}
               className="w-full bg-emerald-600 text-white rounded-full py-2.5 font-semibold text-lg hover:bg-emerald-700 hover:shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -263,7 +254,6 @@ export default function Cart() {
               </svg>
             </button>
 
-            {/* Promo Code Input */}
             <div className="mt-8 pt-6 border-t border-gray-200">
               <p className="text-sm font-medium text-gray-900 mb-3">
                 Add a promo code

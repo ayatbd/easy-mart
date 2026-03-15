@@ -125,7 +125,7 @@ export default function BestSellingProducts() {
 
             <Link
               href="/products"
-              className="bg-[#DB4444] text-white px-10 py-2 rounded-sm font-medium hover:bg-red-600 transition-colors whitespace-nowrap text-center"
+              className="bg-emerald-600 text-white px-10 py-2 rounded-sm font-medium hover:bg-emerald-700 transition-colors whitespace-nowrap text-center"
             >
               View All
             </Link>
