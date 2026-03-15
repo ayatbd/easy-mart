@@ -6,7 +6,7 @@ import Container from "@/components/modules/Container";
 export default function SignIn() {
   return (
     <Container>
-      <div className="w-full flex flex-col lg:flex-row items-center py-14 lg:py-20">
+      <div className="w-full flex flex-col lg:flex-row items-center py-18 lg:py-28">
         <div className="hidden lg:flex w-1/2 h-full bg-[#CBE4E8] items-center justify-end rounded-r-sm pr-10 overflow-hidden">
           <div className="w-full h-full max-w-200">
             <Image
@@ -38,10 +38,35 @@ export default function SignIn() {
                 className="w-full border-b border-gray-300 py-1 bg-transparent text-black placeholder-gray-500 focus:outline-none focus:border-black transition-colors"
               />
 
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded"
+                  />
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-3 block text-sm text-slate-900"
+                  >
+                    Remember me
+                  </label>
+                </div>
+                <div className="text-sm">
+                  <Link
+                    href="#"
+                    className="text-blue-600 hover:text-blue-500 font-medium"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
+              </div>
+
               <div className="flex flex-col gap-4 mt-2">
                 <button
                   type="submit"
-                  className="w-full bg-[#DB4444] text-white py-2 rounded-sm font-medium hover:bg-[#c93d3d] transition-colors"
+                  className="w-full bg-emerald-600 text-white py-2 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
                 >
                   Sign in
                 </button>
@@ -78,15 +103,6 @@ export default function SignIn() {
                 </button>
               </div>
             </form>
-
-            <div className="flex items-center justify-center gap-4 mt-8">
-              <Link
-                href="/login"
-                className="text-black font-medium border-b border-black pb-px hover:text-gray-600 hover:border-gray-600 transition-colors"
-              >
-                Forgot Password
-              </Link>
-            </div>
           </div>
         </div>
       </div>
