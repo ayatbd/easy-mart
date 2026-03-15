@@ -233,8 +233,9 @@ export default function Cart() {
               </span>
             </div>
 
-            <button
-              disabled={cartItems.length === 0}
+            <Link
+              href="/checkout"
+              // disabled={cartItems.length === 0}
               className="w-full bg-emerald-600 text-white rounded-full py-2.5 font-semibold text-lg hover:bg-emerald-700 hover:shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               Proceed to Checkout
@@ -252,7 +253,7 @@ export default function Cart() {
                   d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
                 />
               </svg>
-            </button>
+            </Link>
 
             <div className="mt-8 pt-6 border-t border-gray-200">
               <p className="text-sm font-medium text-gray-900 mb-3">

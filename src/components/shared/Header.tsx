@@ -7,6 +7,7 @@ const navLinks = [
   { name: "Contact", href: "/contact" },
   { name: "About", href: "/about" },
   { name: "Journal", href: "/journal" },
+  { name: "Sign Up", href: "/signup" },
 ];
 
 const Header: React.FC = () => {
