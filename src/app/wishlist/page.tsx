@@ -1,7 +1,10 @@
-import React from "react";
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+// --- Types ---
 interface Product {
   id: string;
   name: string;
@@ -14,18 +17,19 @@ interface Product {
   isNew?: boolean;
 }
 
-const wishlistProducts: Product[] = [
+// --- Mock Data ---
+const initialWishlist: Product[] = [
   {
     id: "w1",
-    name: "Gucci duffle bag",
-    image: "/bag.png",
+    name: "Gucci Duffle Bag",
+    image: "/images/main/best-selling/image2.png",
     price: 960,
     oldPrice: 1160,
-    discount: 35,
+    discount: 17,
   },
   {
     id: "w2",
-    name: "RGB liquid CPU Cooler",
+    name: "RGB Liquid CPU Cooler",
     image: "/cooler.png",
     price: 196,
   },
@@ -41,18 +45,18 @@ const wishlistProducts: Product[] = [
     image: "/gamepad.png",
     price: 120,
     oldPrice: 160,
-    discount: 40,
+    discount: 25,
   },
 ];
 
-const justForYouProducts: Product[] = [
+const recommendedProducts: Product[] = [
   {
     id: "r1",
     name: "ASUS FHD Gaming Laptop",
     image: "/laptop.png",
     price: 960,
     oldPrice: 1160,
-    discount: 35,
+    discount: 17,
     rating: 5,
     reviews: 65,
   },
@@ -83,14 +87,15 @@ const justForYouProducts: Product[] = [
   },
 ];
 
+// --- Star Rating Component ---
 const StarRating = ({ rating }: { rating: number }) => {
   return (
     <div className="flex items-center gap-1">
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
-          className={`w-4 h-4 ${
-            star <= rating ? "text-[#FFAD33]" : "text-gray-300"
+          className={`w-3.5 h-3.5 ${
+            star <= rating ? "text-amber-400" : "text-gray-200"
           }`}
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -103,205 +108,271 @@ const StarRating = ({ rating }: { rating: number }) => {
 };
 
 export default function Wishlist() {
+  const [wishlist, setWishlist] = useState<Product[]>(initialWishlist);
+
+  const removeFromWishlist = (id: string) => {
+    setWishlist((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const moveAllToBag = () => {
+    alert("All items moved to your bag!");
+    setWishlist([]); // Clears wishlist after moving
+  };
+
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      {/* Wishlist Section */}
-      <section className="mb-20">
-        <div className="flex items-center justify-between mb-10">
-          <h2 className="text-xl md:text-2xl font-medium text-black tracking-wide">
-            Wishlist ({wishlistProducts.length})
-          </h2>
-          <button className="px-8 py-3 border border-gray-400 rounded-sm font-medium hover:bg-gray-50 transition-colors">
-            Move All To Bag
-          </button>
+    // pt-32 accounts for the fixed sticky AURA header
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 min-h-screen">
+      {/* --- Wishlist Section --- */}
+      <section className="mb-24">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10 border-b border-gray-100 pb-6">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+              Saved Items
+            </h1>
+            <p className="text-gray-500 mt-2">
+              You have{" "}
+              <span className="font-semibold text-emerald-600">
+                {wishlist.length}
+              </span>{" "}
+              items in your wishlist.
+            </p>
+          </div>
+
+          {wishlist.length > 0 && (
+            <button
+              onClick={moveAllToBag}
+              className="px-8 py-3 bg-white border border-gray-200 text-gray-700 rounded-full font-medium hover:border-emerald-600 hover:text-emerald-600 transition-all duration-300 shadow-sm hover:shadow-md w-full sm:w-auto"
+            >
+              Move All to Cart
+            </button>
+          )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {wishlistProducts.map((product) => (
-            <div
-              key={product.id}
-              className="group cursor-pointer flex flex-col"
-            >
-              <div className="relative bg-[#F5F5F5] rounded-md h-[250px] flex flex-col items-center justify-center overflow-hidden mb-4">
-                {product.discount && (
-                  <div className="absolute top-3 left-3 bg-[#DB4444] text-white text-xs font-medium px-3 py-1 rounded-sm z-10">
-                    -{product.discount}%
-                  </div>
-                )}
+        {/* Wishlist Grid */}
+        {wishlist.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {wishlist.map((product) => (
+              <div
+                key={product.id}
+                className="group flex flex-col bg-white border border-gray-100 rounded-3xl p-4 hover:shadow-xl transition-all duration-500"
+              >
+                {/* Image Container */}
+                <div className="relative w-full h-55 bg-gray-50 rounded-2xl overflow-hidden mb-5">
+                  {/* Discount Badge */}
+                  {product.discount && (
+                    <div className="absolute top-3 left-3 bg-emerald-100 text-emerald-800 text-[10px] font-bold px-3 py-1.5 rounded-full z-10 uppercase tracking-wide">
+                      {product.discount}% OFF
+                    </div>
+                  )}
 
-                <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
+                  {/* Remove Button */}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      removeFromWishlist(product.id);
+                    }}
+                    className="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white shadow-sm transition-all z-10"
+                    aria-label="Remove from wishlist"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
-                      strokeWidth={1.5}
+                      strokeWidth={2}
                       stroke="currentColor"
-                      className="w-5 h-5"
+                      className="w-4 h-4"
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                        d="M6 18L18 6M6 6l12 12"
                       />
                     </svg>
                   </button>
-                </div>
 
-                <div className="relative w-full h-[140px] mt-4">
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                    className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
                   />
+
+                  {/* Floating Add to Cart Button */}
+                  <div className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                    <button className="w-full bg-gray-900/90 backdrop-blur-md text-white py-3 rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-emerald-600 transition-colors">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className="w-4 h-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                        />
+                      </svg>
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
 
-                <button className="absolute bottom-0 left-0 w-full bg-black text-white py-2.5 font-medium flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                    />
-                  </svg>
-                  Add To Cart
-                </button>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <h3 className="text-black font-medium truncate">
-                  {product.name}
-                </h3>
-                <div className="flex items-center gap-3">
-                  <span className="text-[#DB4444] font-medium">
-                    ${product.price}
-                  </span>
-                  {product.oldPrice && (
-                    <span className="text-gray-500 line-through font-medium">
-                      ${product.oldPrice}
+                {/* Details */}
+                <div className="flex flex-col gap-1 px-1">
+                  <h3 className="text-gray-900 font-semibold truncate text-lg">
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center gap-3 mt-1">
+                    <span className="text-emerald-600 font-bold text-lg">
+                      ${product.price}
                     </span>
-                  )}
+                    {product.oldPrice && (
+                      <span className="text-gray-400 line-through font-medium text-sm">
+                        ${product.oldPrice}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        ) : (
+          // Empty State
+          <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-3xl border border-gray-100 border-dashed">
+            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 text-gray-300">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-10 h-10"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                />
+              </svg>
             </div>
-          ))}
-        </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+              Your wishlist is empty
+            </h2>
+            <p className="text-gray-500 mb-8">
+              Looks like you haven&apos;t saved any items yet.
+            </p>
+            <Link
+              href="/shop"
+              className="px-8 py-3 bg-emerald-600 text-white rounded-full font-medium hover:bg-emerald-700 transition-colors shadow-lg"
+            >
+              Start Shopping
+            </Link>
+          </div>
+        )}
       </section>
 
-      {/* Just For You Section */}
+      {/* --- Just For You Section --- */}
       <section>
-        <div className="flex items-center justify-between mb-10">
-          <div className="flex items-center gap-4">
-            <div className="w-5 h-10 bg-[#DB4444] rounded-sm"></div>
-            <span className="text-xl md:text-2xl text-black font-medium tracking-wide">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+          {/* Custom Modern Label (Pulsing Dot) */}
+          <div className="flex flex-col gap-4">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-100 w-max">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span className="text-emerald-700 font-bold text-xs sm:text-sm tracking-[0.15em] uppercase">
+                Recommended
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
               Just For You
-            </span>
+            </h2>
           </div>
-          <button className="px-8 py-3 border border-gray-400 rounded-sm font-medium hover:bg-gray-50 transition-colors">
-            See All
-          </button>
+
+          <Link
+            href="/shop"
+            className="text-emerald-600 font-semibold hover:text-emerald-700 hover:underline underline-offset-4 transition-all pb-2"
+          >
+            View All Products &rarr;
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {justForYouProducts.map((product) => (
+          {recommendedProducts.map((product) => (
             <div
               key={product.id}
-              className="group cursor-pointer flex flex-col"
+              className="group flex flex-col bg-white border border-gray-100 rounded-3xl p-4 hover:shadow-xl transition-all duration-500 cursor-pointer"
             >
-              <div className="relative bg-[#F5F5F5] rounded-md h-[250px] flex items-center justify-center overflow-hidden mb-4 p-4">
+              <div className="relative w-full h-[220px] bg-gray-50 rounded-2xl overflow-hidden mb-5">
                 {product.discount && (
-                  <div className="absolute top-3 left-3 bg-[#DB4444] text-white text-xs font-medium px-3 py-1 rounded-sm z-10">
-                    -{product.discount}%
+                  <div className="absolute top-3 left-3 bg-emerald-100 text-emerald-800 text-[10px] font-bold px-3 py-1.5 rounded-full z-10 uppercase tracking-wide">
+                    {product.discount}% OFF
                   </div>
                 )}
 
                 {product.isNew && !product.discount && (
-                  <div className="absolute top-3 left-3 bg-[#00FF66] text-white text-xs font-medium px-3 py-1 rounded-sm z-10">
-                    NEW
+                  <div className="absolute top-3 left-3 bg-gray-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-full z-10 uppercase tracking-wide shadow-sm">
+                    New Arrival
                   </div>
                 )}
 
-                <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="black"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-
-                <div className="relative w-full h-[160px]">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-contain"
-                  />
-                </div>
-
-                <button className="absolute bottom-0 left-0 w-full bg-black text-white py-2.5 font-medium flex items-center justify-center gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                {/* Quick Add to Wishlist Button */}
+                <button className="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white shadow-sm transition-all z-10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth={1.5}
+                    strokeWidth={2}
                     stroke="currentColor"
-                    className="w-5 h-5"
+                    className="w-4 h-4"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                     />
                   </svg>
-                  Add To Cart
                 </button>
+
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
+                />
+
+                <div className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                  <button className="w-full bg-emerald-600 text-white py-3 rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-emerald-700 transition-colors shadow-lg">
+                    Add to Cart
+                  </button>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-1.5 flex-1">
-                <h3 className="text-black font-medium truncate">
+              <div className="flex flex-col gap-1.5 px-1 flex-1">
+                <h3 className="text-gray-900 font-semibold truncate text-lg">
                   {product.name}
                 </h3>
-                <div className="flex items-center gap-3">
-                  <span className="text-[#DB4444] font-medium">
+                <div className="flex items-center gap-3 mt-1">
+                  <span className="text-emerald-600 font-bold text-lg">
                     ${product.price}
                   </span>
                   {product.oldPrice && (
-                    <span className="text-gray-500 line-through font-medium">
+                    <span className="text-gray-400 line-through font-medium text-sm">
                       ${product.oldPrice}
                     </span>
                   )}
                 </div>
 
                 {product.rating && (
-                  <div className="flex items-center gap-2 mt-0.5">
+                  <div className="flex items-center gap-2 mt-1">
                     <StarRating rating={product.rating} />
-                    <span className="text-gray-500 text-sm font-semibold">
+                    <span className="text-gray-500 text-xs font-medium">
                       ({product.reviews})
                     </span>
                   </div>

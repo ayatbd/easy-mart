@@ -288,7 +288,7 @@ export default function ExploreProducts() {
         <div className="mt-12 flex justify-center">
           <Link
             href="/products"
-            className="bg-[#DB4444] text-white px-12 py-2 rounded-sm font-medium hover:bg-red-600 transition-colors"
+            className="bg-emerald-600 text-white px-12 py-2 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
           >
             View All Products
           </Link>

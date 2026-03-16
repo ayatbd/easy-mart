@@ -343,7 +343,7 @@ export default function Checkout() {
             <button
               type="submit"
               disabled={isProcessing}
-              className="w-full bg-emerald-600 text-white rounded-full py-4 font-semibold text-lg hover:bg-emerald-700 hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-wait"
+              className="w-full bg-emerald-600 text-white rounded-full py-2 font-semibold text-lg hover:bg-emerald-700 hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-wait"
             >
               {isProcessing ? (
                 <>
