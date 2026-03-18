@@ -109,7 +109,7 @@ export default function ProductDetails() {
         {/* --- Left Column: Image Gallery --- */}
         <div className="lg:col-span-7 flex flex-col-reverse md:flex-row gap-4 md:gap-6 h-max">
           {/* Thumbnails */}
-          <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-y-auto hide-scrollbar w-full md:w-24 flex-shrink-0">
+          <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-y-auto hide-scrollbar w-full md:w-24 shrink-0">
             {product.images.map((img, idx) => (
               <button
                 key={idx}
