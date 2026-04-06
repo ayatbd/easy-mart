@@ -1,8 +1,12 @@
 // src/app/(admin)/layout.js
 import AdminSidebar from "@/components/admin/AdminSidebar";
-import AdminNavbar from "@/components/admin/AdminNavbar";
+// import AdminNavbar from "@/components/admin/AdminNavbar";
 
-export default function AdminLayout({ children }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gray-50">
       <AdminSidebar />

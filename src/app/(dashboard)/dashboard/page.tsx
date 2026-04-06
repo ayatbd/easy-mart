@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-const AdminDashboardHome = () => {
+function AdminDashboardHome() {
   // Mock Data (You will fetch this from your /products, /orders, and /users APIs later)
   const stats = [
     {
@@ -235,6 +235,6 @@ const AdminDashboardHome = () => {
       </div>
     </div>
   );
-};
+}
 
 export default AdminDashboardHome;
