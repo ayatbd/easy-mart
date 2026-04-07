@@ -18,10 +18,18 @@ const AdminSidebar = () => {
   const pathname = usePathname();
 
   const menuItems = [
-    { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-    { name: "Add Product", href: "/admin/add-product", icon: PlusCircle },
-    { name: "All Products", href: "/admin/all-products", icon: ShoppingBag },
-    { name: "Manage Orders", href: "/admin/manage-orders", icon: ShoppingCart },
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Add Product", href: "/dashboard/add-product", icon: PlusCircle },
+    {
+      name: "All Products",
+      href: "/dashboard/all-products",
+      icon: ShoppingBag,
+    },
+    {
+      name: "Manage Orders",
+      href: "/dashboard/manage-orders",
+      icon: ShoppingCart,
+    },
     { name: "Users", href: "/admin/users", icon: Users },
   ];
 
