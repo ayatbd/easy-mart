@@ -22,7 +22,7 @@ export default function SignIn() {
         <div className="w-full lg:w-1/2 flex items-center justify-center px-4 sm:px-10 lg:px-24">
           <div className="w-full max-w-100 flex flex-col">
             <h1 className="text-3xl sm:text-4xl font-medium tracking-wide mb-4 text-black">
-              Sign up to Easy Mart
+              Sign in to Easy Mart
             </h1>
             <p className="text-black mb-12">Enter your details below</p>
 
