@@ -123,12 +123,6 @@ export default function ExploreProducts() {
             >
               Sign In
             </Link>
-            <Link
-              href="/signup"
-              className="w-full bg-white border border-gray-300 text-black py-3 rounded-md font-medium text-center hover:bg-gray-50 transition-all"
-            >
-              Create an Account
-            </Link>
           </div>
         </DialogContent>
       </Dialog>
