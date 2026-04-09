@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const navLinks = [
   { name: "Shop", href: "/" },
@@ -13,6 +14,8 @@ const navLinks = [
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const { user, token } = useSelector((state: any) => state.auth);
 
   // Handle scroll effect for the sticky header
   useEffect(() => {
@@ -43,21 +46,27 @@ const Header: React.FC = () => {
               href="/"
               className="text-2xl font-black tracking-tighter text-gray-900"
             >
-              EASY MART<span className="text-emerald-600">.</span>
+              Easy Mart<span className="text-emerald-600">.</span>
             </Link>
           </div>
 
           {/* Center: Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition-all duration-300"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              if (link.name === "Sign Up" && (user || token)) {
+                return null;
+              }
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition-all duration-300"
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right: Actions (Search, Wishlist, Cart, Profile) */}

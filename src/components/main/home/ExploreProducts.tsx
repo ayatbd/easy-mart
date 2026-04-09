@@ -41,7 +41,10 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 export default function ExploreProducts() {
   // Fetching data
-  const { data: productsResponse, isLoading } = useGetProductsQuery(undefined);
+  const { data: productsResponse, isLoading } = useGetProductsQuery({
+    page: 1,
+    limit: 10,
+  });
 
   // Adjusted to handle the common Redux RTK Query response structure
   const products: Product[] = productsResponse?.data || [];
