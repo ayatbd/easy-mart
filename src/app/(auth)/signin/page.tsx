@@ -45,7 +45,7 @@ export default function SignIn() {
             token: result.token,
           }),
         );
-        router.push("/admin");
+        router.push("/");
       }
     } catch (err) {
       // This block will now catch the "Invalid password" or "User not found" errors

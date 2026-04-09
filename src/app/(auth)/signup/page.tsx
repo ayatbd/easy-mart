@@ -27,48 +27,49 @@ export default function SignUp() {
     password: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError(""); // Clear error when user types
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, email, password } = formData;
 
-    // 1. Validation: Password must be less than 6 characters
-    if (password.length >= 6) {
-      setError("Password is too long! Must be less than 6 characters.");
+    // 1. Validation
+    if (password.length < 6) {
+      setError("Password must be 6 characters or more.");
       return;
     }
 
-    // 2. Capitalize first letter of Name
     const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
 
+    // --- THE FIX IS HERE ---
     const userInfo = {
       name: formattedName,
       email: email.toLowerCase(),
+      password: password, // <--- MAKE SURE THIS IS ADDED
       role: "user",
     };
 
     try {
-      // 3. Send to Backend
       const res = await registerUser(userInfo).unwrap();
 
-      // 4. Check if Backend rejected based on existing email
-      // (Your express code returns { message: "user already exists" })
       if (res.message === "user already exists") {
-        setError("This email is already registered. Please use another.");
+        setError("This email is already registered.");
         return;
       }
 
-      // 5. If successful, get JWT and login
-      const tokenRes = await login({ email: userInfo.email }).unwrap();
+      // After registration, login automatically
+      const tokenRes = await login({
+        email: userInfo.email,
+        password: userInfo.password,
+      }).unwrap();
       dispatch(setUser({ user: userInfo, token: tokenRes.token }));
 
-      router.push("/admin"); // Or wherever you want them to go
+      router.push("/signin");
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      setError("Registration failed.");
     }
   };
 

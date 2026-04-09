@@ -1,21 +1,18 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import Container from "@/components/modules/Container";
-import Label from "@/components/modules/Label";
+import Link from "next/link";
+import Image from "next/image";
 import { useGetProductsQuery } from "@/redux/api/exploreProductsApi";
 
-// --- Types (Updated to match MongoDB fields) ---
 interface Product {
   _id: string;
   name: string;
   image: string;
-  original_price: number; // changed from price
-  old_price: number; // changed from oldPrice
-  discount_percent: number; // changed from discount
-  ratings: number; // changed from rating
+  original_price: number;
+  old_price: number;
+  discount_percent: number;
+  ratings: number;
   reviews: number;
 }
 
@@ -39,99 +36,26 @@ const StarRating = ({ rating }: { rating: number }) => {
   );
 };
 
-export default function ExploreProducts() {
-  // Fetching data
+export default function AllProductsPage() {
   const { data: productsResponse, isLoading } = useGetProductsQuery(undefined);
-
-  // Adjusted to handle the common Redux RTK Query response structure
   const products: Product[] = productsResponse?.data || [];
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  // --- Scroll Logic ---
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 300;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <div className="py-20 text-center font-bold">Loading Products...</div>
-    );
-  }
+  if (isLoading)
+    return <div className="py-20 text-center">Loading Gallery...</div>;
 
   return (
     <Container>
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="mb-8">
-          <Label>Our Products</Label>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="flex flex-col md:flex-row md:items-end gap-10 md:gap-20">
-              <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wider">
-                Explore Our Products
-              </h2>
-            </div>
+      <div className="py-10">
+        <h1 className="text-3xl font-bold mb-8">
+          All Products ({products.length})
+        </h1>
 
-            {/* Navigation Buttons */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => scroll("left")}
-                className="w-11 h-11 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-                aria-label="Scroll Left"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-                  />
-                </svg>
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                className="w-11 h-11 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-                aria-label="Scroll Right"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* --- Product Carousel (Rectified Grid to Flex for Scrolling) --- */}
-        <div
-          ref={scrollRef}
-          className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {products.map((product: Product) => (
-            <div
+        {/* Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+          {products.map((product) => (
+            <Link
               key={product._id}
+              href={`/products/${product._id}`}
               className="min-w-67.5 max-w-67.5 snap-start group cursor-pointer"
             >
               {/* Image Container */}
@@ -215,25 +139,10 @@ export default function ExploreProducts() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
-
-        <div className="mt-12 flex justify-center">
-          <Link
-            href="/products"
-            className="bg-[#DB4444] text-white px-12 py-4 rounded font-medium hover:bg-red-700 transition-colors"
-          >
-            View All Products
-          </Link>
-        </div>
-
-        <style jsx global>{`
-          .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
-      </section>
+      </div>
     </Container>
   );
 }
