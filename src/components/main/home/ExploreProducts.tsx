@@ -91,7 +91,7 @@ export default function ExploreProducts() {
 
       try {
         await addToCart(cartItem).unwrap();
-        alert("Added to Cart!"); // Replace with toast for better UI
+        toast("Added to Cart!");
       } catch (error) {
         console.error("Failed to add to cart", error);
       }
@@ -108,7 +108,7 @@ export default function ExploreProducts() {
 
       try {
         await addToWishlist(wishlistItem).unwrap();
-        alert("Added to Wishlist!");
+        toast.success("Added to Wishlist!");
       } catch (error) {
         console.error("Failed to add to wishlist", error);
       }

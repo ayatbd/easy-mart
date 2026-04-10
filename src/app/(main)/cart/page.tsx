@@ -1,76 +1,70 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // 1. Added useEffect
 import Image from "next/image";
 import Link from "next/link";
+import { useGetCartItemsQuery } from "@/redux/api/cartApi";
+import { useSelector } from "react-redux";
 
-// --- Types ---
 interface CartItem {
-  id: string;
+  _id: string; // MongoDB uses _id
   name: string;
-  variant: string;
   price: number;
   quantity: number;
   image: string;
+  variant?: string;
 }
 
-// --- Initial Mock Data ---
-const initialCartItems: CartItem[] = [
-  {
-    id: "1",
-    name: "Sony PlayStation 5 Console",
-    variant: "White / 1TB",
-    price: 499.0,
-    quantity: 1,
-    image: "/ps5.png",
-  },
-  {
-    id: "2",
-    name: "JBL Boombox 3 Portable Speaker",
-    variant: "Midnight Black",
-    price: 399.0,
-    quantity: 2,
-    image: "/jbl-speaker.png",
-  },
-  {
-    id: "3",
-    name: "Gucci Intense Oud EDP",
-    variant: "90ml",
-    price: 185.0,
-    quantity: 1,
-    image: "/perfume.png",
-  },
-];
-
 export default function Cart() {
-  const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
-  const [promoCode, setPromoCode] = useState("");
+  const { user } = useSelector((state: any) => state.auth);
 
-  // --- Handlers ---
+  // 2. Fetch data
+  const { data: initialCartItems, isLoading } = useGetCartItemsQuery(
+    user?.email,
+    {
+      skip: !user?.email,
+    },
+  );
+
+  // 3. Initialize with an empty array [] to prevent .reduce() crash
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // const [promoCode, setPromoCode] = useState("");
+
+  // 4. Update local state when API data arrives
+  useEffect(() => {
+    if (initialCartItems) {
+      setCartItems(initialCartItems);
+    }
+  }, [initialCartItems]);
+
   const updateQuantity = (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item,
+        item._id === id ? { ...item, quantity: newQuantity } : item,
       ),
     );
   };
 
   const removeItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    setCartItems((prev) => prev.filter((item) => item._id !== id));
   };
 
-  // --- Calculations ---
+  // 5. Calculate (cartItems is now guaranteed to be an array, even if empty)
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0,
   );
-  const shipping = subtotal > 0 ? 15.0 : 0; // Flat rate or free conditionally
+
+  const shipping = subtotal > 0 ? 15.0 : 0;
   const total = subtotal + shipping;
+
+  // 6. Handle Loading State
+  if (isLoading)
+    return <div className="pt-40 text-center">Loading your cart...</div>;
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 min-h-screen">
-      {/* Page Header */}
       <div className="mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
           Your Cart
@@ -88,8 +82,8 @@ export default function Cart() {
                 Your cart is empty
               </h2>
               <Link
-                href="/shop"
-                className="inline-flex items-center justify-center px-8 py-3 bg-emerald-600 text-white rounded-full font-medium hover:bg-emerald-700 transition-colors"
+                href="/"
+                className="inline-flex items-center justify-center px-8 py-3 bg-emerald-600 text-white rounded-full font-medium"
               >
                 Continue Shopping
               </Link>
@@ -97,8 +91,8 @@ export default function Cart() {
           ) : (
             cartItems.map((item) => (
               <div
-                key={item.id}
-                className="flex flex-col sm:flex-row items-center gap-6 p-4 sm:p-6 bg-white border border-gray-200 rounded-3xl hover:shadow-sm transition-shadow"
+                key={item._id}
+                className="flex flex-col sm:flex-row items-center gap-6 p-4 sm:p-6 bg-white border border-gray-200 rounded-3xl hover:shadow-sm"
               >
                 <div className="relative w-full sm:w-32 h-32 bg-gray-50 rounded-2xl overflow-hidden shrink-0">
                   <Image
@@ -111,11 +105,11 @@ export default function Cart() {
                 <div className="flex-1 flex flex-col w-full">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 leading-tight">
+                      <h3 className="text-lg font-semibold text-gray-900">
                         {item.name}
                       </h3>
                       <p className="text-sm text-gray-500 mt-1">
-                        {item.variant}
+                        {item.variant || "Standard"}
                       </p>
                     </div>
                     <p className="text-lg font-bold text-gray-900">
@@ -127,68 +121,64 @@ export default function Cart() {
                     <div className="flex items-center bg-gray-50 border border-gray-200 rounded-full p-1">
                       <button
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
+                          updateQuantity(item._id, item.quantity - 1)
                         }
-                        className="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-white hover:shadow-sm transition-all"
+                        className="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-white transition-all"
                       >
                         <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
-                          stroke="currentColor"
                           className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
                         >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="M19.5 12h-15"
+                            strokeWidth="2"
+                            d="M20 12H4"
                           />
                         </svg>
                       </button>
-                      <span className="w-10 text-center text-sm font-semibold text-gray-900">
+                      <span className="w-10 text-center text-sm font-semibold">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
+                          updateQuantity(item._id, item.quantity + 1)
                         }
-                        className="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-white hover:shadow-sm transition-all"
+                        className="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-white transition-all"
                       >
                         <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={2}
-                          stroke="currentColor"
                           className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
                         >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            d="M12 4.5v15m7.5-7.5h-15"
+                            strokeWidth="2"
+                            d="M12 6v12m6-6H6"
                           />
                         </svg>
                       </button>
                     </div>
 
                     <button
-                      onClick={() => removeItem(item.id)}
-                      className="text-gray-400 hover:text-red-500 transition-colors p-2"
-                      aria-label="Remove item"
+                      onClick={() => removeItem(item._id)}
+                      className="text-gray-400 hover:text-red-500 p-2"
                     >
                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
                         className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                          strokeWidth="1.5"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                         />
                       </svg>
                     </button>
@@ -199,12 +189,12 @@ export default function Cart() {
           )}
         </div>
 
+        {/* Order Summary Section */}
         <div className="lg:col-span-4">
           <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 sticky top-32">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
               Order Summary
             </h2>
-
             <div className="flex flex-col gap-4 text-sm text-gray-600 border-b border-gray-200 pb-6 mb-6">
               <div className="flex justify-between items-center">
                 <span>Subtotal</span>
@@ -213,65 +203,24 @@ export default function Cart() {
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span>Shipping Estimate</span>
+                <span>Shipping</span>
                 <span className="font-medium text-gray-900">
                   ${shipping.toFixed(2)}
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <span>Tax Estimate</span>
-                <span className="font-medium text-gray-900">
-                  Calculated at checkout
-                </span>
-              </div>
             </div>
-
             <div className="flex justify-between items-center mb-8">
               <span className="text-lg font-bold text-gray-900">Total</span>
               <span className="text-2xl font-black text-gray-900">
                 ${total.toFixed(2)}
               </span>
             </div>
-
             <Link
               href="/checkout"
-              // disabled={cartItems.length === 0}
-              className="w-full bg-emerald-600 text-white rounded-full py-2.5 font-semibold text-lg hover:bg-emerald-700 hover:shadow-lg transition-all disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-emerald-600 text-white rounded-full py-3 font-semibold text-lg flex items-center justify-center gap-2"
             >
               Proceed to Checkout
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                />
-              </svg>
             </Link>
-
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <p className="text-sm font-medium text-gray-900 mb-3">
-                Add a promo code
-              </p>
-              <div className="flex items-center bg-white rounded-full border border-gray-200 overflow-hidden focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
-                <input
-                  type="text"
-                  placeholder="Enter code"
-                  value={promoCode}
-                  onChange={(e) => setPromoCode(e.target.value)}
-                  className="w-full px-4 py-3 text-sm outline-none bg-transparent"
-                />
-                <button className="px-6 py-3 text-sm font-semibold text-emerald-600 hover:bg-emerald-50 transition-colors">
-                  Apply
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>

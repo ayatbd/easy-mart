@@ -4,6 +4,7 @@ import "./globals.css";
 import ScrollButton from "@/components/others/ScrollButton";
 import FloatingChat from "@/components/others/FloatingChat";
 import Providers from "@/lib/Providers";
+import AuthProvider from "@/lib/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,9 @@ export default function RootLayout({
       >
         <FloatingChat />
         <ScrollButton />
-        <Providers>{children}</Providers>
+        <Providers>
+          <AuthProvider>{children}</AuthProvider>
+        </Providers>
       </body>
     </html>
   );
