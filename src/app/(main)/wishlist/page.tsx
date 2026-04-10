@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { useGetCartItemsQuery } from "@/redux/api/cartApi";
 
 // --- Types ---
 interface Product {
@@ -108,6 +110,15 @@ const StarRating = ({ rating }: { rating: number }) => {
 };
 
 export default function Wishlist() {
+  const { user } = useSelector((state: any) => state.auth);
+
+  // 2. Fetch data
+  const { data: initialCartItems, isLoading } = useGetCartItemsQuery(
+    user?.email,
+    {
+      skip: !user?.email,
+    },
+  );
   const [wishlist, setWishlist] = useState<Product[]>(initialWishlist);
 
   const removeFromWishlist = (id: string) => {

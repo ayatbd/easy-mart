@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useGetCartItemsQuery } from "@/redux/api/cartApi";
+import { useGetWishlistItemsQuery } from "@/redux/api/wishlistApi";
 
 const navLinks = [
   { name: "Shop", href: "/" },
@@ -18,12 +19,16 @@ const Header: React.FC = () => {
 
   const { user, token } = useSelector((state: any) => state.auth);
 
-  // Fetch cart data (Only if user is logged in)
   const { data: cartItems } = useGetCartItemsQuery(user?.email, {
-    skip: !user?.email, // Don't fetch if no user
+    skip: !user?.email,
+  });
+
+  const { data: initialWishlistItems } = useGetWishlistItemsQuery(user?.email, {
+    skip: !user?.email,
   });
 
   const cartCount = cartItems?.length || 0;
+  const wishlistCount = initialWishlistItems?.length || 0;
 
   // Handle scroll effect for the sticky header
   useEffect(() => {
@@ -145,7 +150,7 @@ const Header: React.FC = () => {
               </svg>
               {/* Notification Badge */}
               <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-bold text-white border-2 border-white">
-                2
+                {wishlistCount}
               </span>
             </Link>
 
@@ -170,7 +175,7 @@ const Header: React.FC = () => {
               </svg>
               {/* Notification Badge */}
               <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-gray-900 text-[10px] font-bold text-white border-2 border-white">
-                 {cartCount}
+                {cartCount}
               </span>
             </Link>
 
@@ -213,6 +218,6 @@ const Header: React.FC = () => {
       </div>
     </header>
   );
-};;
+};
 
 export default Header;
