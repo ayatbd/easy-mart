@@ -102,6 +102,10 @@ export default function ExploreProducts() {
         name: product.name,
         price: product.original_price,
         image: product.image,
+        old_price: product.old_price,
+        discount_percent: product.discount_percent,
+        ratings: product.ratings,
+        reviews: product.reviews,
       };
 
       try {
