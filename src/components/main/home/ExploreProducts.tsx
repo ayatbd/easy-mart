@@ -7,6 +7,11 @@ import { useSelector } from "react-redux"; // Added useSelector
 import Container from "@/components/modules/Container";
 import Label from "@/components/modules/Label";
 import { useGetProductsQuery } from "@/redux/api/exploreProductsApi";
+import {
+  useAddToCartMutation,
+  useAddToWishlistMutation,
+} from "@/redux/api/cartApi";
+import { toast } from "sonner";
 
 // --- Shadcn UI Imports ---
 import {
@@ -59,18 +64,55 @@ export default function ExploreProducts() {
   const products: Product[] = productsResponse?.data || [];
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // --- Reusable Auth Check ---
-  const handleProtectedAction = (e: React.MouseEvent, actionType: string) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const [addToCart] = useAddToCartMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
 
+  // --- Reusable Auth Check ---
+  const handleProtectedAction = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    actionType: "Cart" | "Wishlist",
+    product: Product,
+  ) => {
+    e.preventDefault();
     if (!user || !token) {
-      setIsModalOpen(true); // Show Modal if not logged in
+      setIsModalOpen(true);
       return;
     }
 
-    // If logged in, proceed with logic (e.g., call cart API)
-    console.log(`${actionType} added successfully!`);
+    if (actionType === "Cart") {
+      const cartItem = {
+        productId: product._id,
+        email: user.email,
+        name: product.name,
+        price: product.original_price,
+        image: product.image,
+        quantity: 1,
+      };
+
+      try {
+        await addToCart(cartItem).unwrap();
+        alert("Added to Cart!"); // Replace with toast for better UI
+      } catch (error) {
+        console.error("Failed to add to cart", error);
+      }
+    }
+
+    if (actionType === "Wishlist") {
+      const wishlistItem = {
+        productId: product._id,
+        userEmail: user.email,
+        name: product.name,
+        price: product.original_price,
+        image: product.image,
+      };
+
+      try {
+        await addToWishlist(wishlistItem).unwrap();
+        alert("Added to Wishlist!");
+      } catch (error) {
+        console.error("Failed to add to wishlist", error);
+      }
+    }
   };
 
   const scroll = (direction: "left" | "right") => {
@@ -90,7 +132,7 @@ export default function ExploreProducts() {
     <Container>
       {/* --- LOGIN REQUIRED MODAL (SHADCN) --- */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-106.25">
           <DialogHeader className="flex flex-col items-center">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
               <svg
@@ -109,7 +151,7 @@ export default function ExploreProducts() {
               </svg>
             </div>
             <DialogTitle className="text-2xl font-bold">
-              You're not logged in
+              You&#39;re not logged in
             </DialogTitle>
             <DialogDescription className="text-center pt-2">
               Please sign in to your account to add items to your cart or
@@ -191,7 +233,9 @@ export default function ExploreProducts() {
                 {/* Wishlist Icon - PROTECTED */}
                 <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
                   <button
-                    onClick={(e) => handleProtectedAction(e, "Wishlist")}
+                    onClick={(e) =>
+                      handleProtectedAction(e, "Wishlist", product)
+                    }
                     className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-[#DB4444] hover:text-white transition-all shadow-sm"
                   >
                     <svg
@@ -243,7 +287,7 @@ export default function ExploreProducts() {
 
                 {/* Add To Cart Button - PROTECTED */}
                 <button
-                  onClick={(e) => handleProtectedAction(e, "Cart")}
+                  onClick={(e) => handleProtectedAction(e, "Cart", product)}
                   className="absolute bottom-0 left-0 w-full bg-black text-white py-3 font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300"
                 >
                   Add To Cart
