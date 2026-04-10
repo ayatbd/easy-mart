@@ -1,6 +1,6 @@
 import { baseApi } from "./baseApi";
 
-const cartApi = baseApi.injectEndpoints({
+export const cartApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // Get all cart items for a specific user
         getCartItems: builder.query({
@@ -14,22 +14,16 @@ const cartApi = baseApi.injectEndpoints({
                 method: "POST",
                 body: item,
             }),
-            invalidatesTags: ["Cart"], // This forces the header count to update
+            invalidatesTags: ["Cart"],
         }),
-        // Add to Wishlist
-        addToWishlist: builder.mutation({
-            query: (item) => ({
-                url: "/wishlist",
-                method: "POST",
-                body: item,
+        deleteCartItem: builder.mutation({
+            query: (id) => ({
+                url: `/carts/${id}`,
+                method: "DELETE",
             }),
-            invalidatesTags: ["Wishlist"],
+            invalidatesTags: ["Cart"],
         }),
     }),
 });
 
-export const {
-    useGetCartItemsQuery,
-    useAddToCartMutation,
-    useAddToWishlistMutation
-} = cartApi;
+export const { useGetCartItemsQuery, useAddToCartMutation, useDeleteCartItemMutation } = cartApi;

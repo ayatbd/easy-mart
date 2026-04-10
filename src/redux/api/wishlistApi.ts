@@ -7,7 +7,15 @@ const wishlistApi = baseApi.injectEndpoints({
             query: (email) => `/wishlist?email=${email}`,
             providesTags: ["Wishlist"],
         }),
+        addToWishlist: builder.mutation({
+            query: (item) => ({
+                url: "/wishlist",
+                method: "POST",
+                body: item,
+            }),
+            invalidatesTags: ["Wishlist"],
+        }),
     }),
 });
 
-export const { useGetWishlistItemsQuery } = wishlistApi;
+export const { useGetWishlistItemsQuery, useAddToWishlistMutation } = wishlistApi;

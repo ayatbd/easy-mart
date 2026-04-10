@@ -3,7 +3,10 @@
 import React, { useState, useEffect } from "react"; // 1. Added useEffect
 import Image from "next/image";
 import Link from "next/link";
-import { useGetCartItemsQuery } from "@/redux/api/cartApi";
+import {
+  useDeleteCartItemMutation,
+  useGetCartItemsQuery,
+} from "@/redux/api/cartApi";
 import { useSelector } from "react-redux";
 
 interface CartItem {
@@ -25,6 +28,9 @@ export default function Cart() {
       skip: !user?.email,
     },
   );
+
+  const [deleteCartItem, { isLoading: isDeleting }] =
+    useDeleteCartItemMutation();
 
   // 3. Initialize with an empty array [] to prevent .reduce() crash
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -165,7 +171,11 @@ export default function Cart() {
                     </div>
 
                     <button
-                      onClick={() => removeItem(item._id)}
+                      onClick={() => {
+                        deleteCartItem(item._id);
+                        removeItem(item._id);
+                      }}
+                      disabled={isDeleting}
                       className="text-gray-400 hover:text-red-500 p-2"
                     >
                       <svg

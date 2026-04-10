@@ -7,10 +7,7 @@ import { useSelector } from "react-redux"; // Added useSelector
 import Container from "@/components/modules/Container";
 import Label from "@/components/modules/Label";
 import { useGetProductsQuery } from "@/redux/api/exploreProductsApi";
-import {
-  useAddToCartMutation,
-  useAddToWishlistMutation,
-} from "@/redux/api/cartApi";
+import { useAddToCartMutation } from "@/redux/api/cartApi";
 import { toast } from "sonner";
 
 // --- Shadcn UI Imports ---
@@ -21,6 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useAddToWishlistMutation } from "@/redux/api/wishlistApi";
 
 interface Product {
   _id: string;
