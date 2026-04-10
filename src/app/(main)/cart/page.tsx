@@ -95,7 +95,7 @@ export default function Cart() {
               </Link>
             </div>
           ) : (
-            cartItems.map((item) => (
+            cartItems?.map((item) => (
               <div
                 key={item._id}
                 className="flex flex-col sm:flex-row items-center gap-6 p-4 sm:p-6 bg-white border border-gray-200 rounded-3xl hover:shadow-sm"
@@ -119,7 +119,7 @@ export default function Cart() {
                       </p>
                     </div>
                     <p className="text-lg font-bold text-gray-900">
-                      ${item.price.toFixed(2)}
+                      ${item?.price?.toFixed(2)}
                     </p>
                   </div>
 

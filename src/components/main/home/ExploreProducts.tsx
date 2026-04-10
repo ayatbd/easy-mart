@@ -222,7 +222,7 @@ export default function ExploreProducts() {
           ref={scrollRef}
           className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6"
         >
-          {products.map((product) => (
+          {products?.map((product) => (
             <div
               key={product._id}
               className="min-w-67.5 max-w-67.5 snap-start group cursor-pointer"

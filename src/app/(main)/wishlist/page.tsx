@@ -1,57 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { useGetCartItemsQuery } from "@/redux/api/cartApi";
+import { useAddToCartMutation } from "@/redux/api/cartApi";
+import { toast } from "sonner";
+import { useGetWishlistItemsQuery } from "@/redux/api/wishlistApi";
 
 // --- Types ---
 interface Product {
-  id: string;
+  _id: string;
   name: string;
   image: string;
-  price: number;
-  oldPrice?: number;
-  discount?: number;
-  rating?: number;
-  reviews?: number;
-  isNew?: boolean;
+  original_price: number;
+  old_price: number;
+  discount_percent: number;
+  ratings: number;
+  reviews: number;
 }
 
-// --- Mock Data ---
-const initialWishlist: Product[] = [
-  {
-    id: "w1",
-    name: "Gucci Duffle Bag",
-    image: "/images/main/best-selling/image2.png",
-    price: 960,
-    oldPrice: 1160,
-    discount: 17,
-  },
-  {
-    id: "w2",
-    name: "RGB Liquid CPU Cooler",
-    image: "/cooler.png",
-    price: 196,
-  },
-  {
-    id: "w3",
-    name: "AK-900 Wired Keyboard",
-    image: "/keyboard.png",
-    price: 200,
-  },
-  {
-    id: "w4",
-    name: "HAVIT HV-G92 Gamepad",
-    image: "/gamepad.png",
-    price: 120,
-    oldPrice: 160,
-    discount: 25,
-  },
-];
-
-const recommendedProducts: Product[] = [
+const recommendedProducts = [
   {
     id: "r1",
     name: "ASUS FHD Gaming Laptop",
@@ -96,8 +65,8 @@ const StarRating = ({ rating }: { rating: number }) => {
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
-          className={`w-3.5 h-3.5 ${
-            star <= rating ? "text-amber-400" : "text-gray-200"
+          className={`w-4 h-4 ${
+            star <= Math.round(rating) ? "text-[#FFAD33]" : "text-gray-300"
           }`}
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -113,25 +82,54 @@ export default function Wishlist() {
   const { user } = useSelector((state: any) => state.auth);
 
   // 2. Fetch data
-  const { data: initialCartItems, isLoading } = useGetCartItemsQuery(
+  const { data: initialWishlist, isLoading } = useGetWishlistItemsQuery(
     user?.email,
     {
       skip: !user?.email,
     },
   );
-  const [wishlist, setWishlist] = useState<Product[]>(initialWishlist);
+  // const [wishlist, setWishlist] = useState<Product[]>(initialWishlist);
+  const [addToCart] = useAddToCartMutation();
+  const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
 
-  const removeFromWishlist = (id: string) => {
-    setWishlist((prev) => prev.filter((item) => item.id !== id));
+  useEffect(() => {
+    if (initialWishlist) {
+      setWishlistItems(initialWishlist);
+    }
+  }, [initialWishlist]);
+
+  const handleProtectedAction = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    actionType: "Cart" | "Wishlist",
+    product: Product,
+  ) => {
+    e.preventDefault();
+
+    if (actionType === "Cart") {
+      const cartItem = {
+        productId: product._id,
+        email: user.email,
+        name: product.name,
+        price: product.original_price,
+        image: product.image,
+        quantity: 1,
+      };
+
+      try {
+        await addToCart(cartItem).unwrap();
+        toast("Added to Cart!");
+      } catch (error) {
+        console.error("Failed to add to cart", error);
+      }
+    }
   };
 
   const moveAllToBag = () => {
     alert("All items moved to your bag!");
-    setWishlist([]); // Clears wishlist after moving
+    setWishlistItems([]);
   };
 
   return (
-    // pt-32 accounts for the fixed sticky AURA header
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 min-h-screen">
       {/* --- Wishlist Section --- */}
       <section className="mb-24">
@@ -144,13 +142,13 @@ export default function Wishlist() {
             <p className="text-gray-500 mt-2">
               You have{" "}
               <span className="font-semibold text-emerald-600">
-                {wishlist.length}
+                {wishlistItems.length}
               </span>{" "}
               items in your wishlist.
             </p>
           </div>
 
-          {wishlist.length > 0 && (
+          {wishlistItems.length > 0 && (
             <button
               onClick={moveAllToBag}
               className="px-8 py-3 bg-white border border-gray-200 text-gray-700 rounded-full font-medium hover:border-emerald-600 hover:text-emerald-600 transition-all duration-300 shadow-sm hover:shadow-md w-full sm:w-auto"
@@ -161,58 +159,23 @@ export default function Wishlist() {
         </div>
 
         {/* Wishlist Grid */}
-        {wishlist.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {wishlist.map((product) => (
+        {wishlistItems.length > 0 ? (
+          <div className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6">
+            {wishlistItems.map((product) => (
               <div
-                key={product.id}
-                className="group flex flex-col bg-white border border-gray-100 rounded-3xl p-4 hover:shadow-xl transition-all duration-500"
+                key={product._id}
+                className="min-w-67.5 max-w-67.5 snap-start group cursor-pointer"
               >
-                {/* Image Container */}
-                <div className="relative w-full h-55 bg-gray-50 rounded-2xl overflow-hidden mb-5">
-                  {/* Discount Badge */}
-                  {product.discount && (
-                    <div className="absolute top-3 left-3 bg-emerald-100 text-emerald-800 text-[10px] font-bold px-3 py-1.5 rounded-full z-10 uppercase tracking-wide">
-                      {product.discount}% OFF
-                    </div>
-                  )}
-
-                  {/* Remove Button */}
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      removeFromWishlist(product.id);
-                    }}
-                    className="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white shadow-sm transition-all z-10"
-                    aria-label="Remove from wishlist"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                      className="w-4 h-4"
+                <div className="relative bg-[#F5F5F5] rounded-md h-62.5 flex items-center justify-center overflow-hidden mb-4 p-4">
+                  <div className="relative w-full h-full">
+                    <button
+                      // onClick={(e) => {
+                      //   e.preventDefault();
+                      //   removeFromWishlist(product.id);
+                      // }}
+                      className="absolute top-0 right-0 w-8 h-8 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-white shadow-sm transition-all z-10"
+                      aria-label="Remove from wishlist"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 25vw"
-                    className="object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
-                  />
-
-                  {/* Floating Add to Cart Button */}
-                  <div className="absolute bottom-3 left-3 right-3 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                    <button className="w-full bg-gray-900/90 backdrop-blur-md text-white py-3 rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-emerald-600 transition-colors">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -224,28 +187,45 @@ export default function Wishlist() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                          d="M6 18L18 6M6 6l12 12"
                         />
                       </svg>
-                      Add to Cart
                     </button>
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="w-full h-full mix-blend-multiply"
+                    />
                   </div>
+
+                  {/* Add To Cart Button - PROTECTED */}
+                  <button
+                    onClick={(e) => handleProtectedAction(e, "Cart", product)}
+                    className="absolute bottom-0 left-0 w-full bg-black text-white py-3 font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                  >
+                    Add To Cart
+                  </button>
                 </div>
 
-                {/* Details */}
-                <div className="flex flex-col gap-1 px-1">
-                  <h3 className="text-gray-900 font-semibold truncate text-lg">
+                {/* Info section... */}
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-black font-bold truncate">
                     {product.name}
                   </h3>
-                  <div className="flex items-center gap-3 mt-1">
-                    <span className="text-emerald-600 font-bold text-lg">
-                      ${product.price}
+                  <div className="flex items-center gap-3">
+                    <span className="text-[#DB4444] font-bold">
+                      ${product.original_price}
                     </span>
-                    {product.oldPrice && (
-                      <span className="text-gray-400 line-through font-medium text-sm">
-                        ${product.oldPrice}
-                      </span>
-                    )}
+                    <span className="text-gray-500 line-through text-sm">
+                      ${product.old_price}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <StarRating rating={product.ratings} />
+                    <span className="text-gray-500 text-sm font-semibold">
+                      ({product.reviews})
+                    </span>
                   </div>
                 </div>
               </div>
