@@ -5,72 +5,32 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/modules/Container";
 import Label from "@/components/modules/Label";
+import { useGetProductsQuery } from "@/redux/api/exploreProductsApi";
+import { useSelector } from "react-redux";
+import { useAddToCartMutation } from "@/redux/api/cartApi";
+import { useAddToWishlistMutation } from "@/redux/api/wishlistApi";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Loader } from "lucide-react";
 
 // --- Types ---
 interface Product {
-  id: string;
+  _id: string;
   name: string;
   image: string;
-  price: number;
-  oldPrice: number;
-  discount: number;
-  rating: number;
+  original_price: number;
+  old_price: number;
+  discount_percent: number;
+  ratings: number;
   reviews: number;
+  flash_sales: boolean;
 }
-
-// --- Mock Data ---
-const flashSalesProducts: Product[] = [
-  {
-    id: "1",
-    name: "HAVIT HV-G92 Gamepad",
-    image: "/images/main/flash-sales/image1.png",
-    price: 120,
-    oldPrice: 160,
-    discount: 40,
-    rating: 5,
-    reviews: 88,
-  },
-  {
-    id: "2",
-    name: "AK-900 Wired Keyboard",
-    image: "/images/main/flash-sales/image2.png",
-    price: 960,
-    oldPrice: 1160,
-    discount: 35,
-    rating: 4,
-    reviews: 75,
-  },
-  {
-    id: "3",
-    name: "IPS LCD Gaming Monitor",
-    image: "/images/main/flash-sales/image3.png",
-    price: 370,
-    oldPrice: 400,
-    discount: 30,
-    rating: 5,
-    reviews: 99,
-  },
-  {
-    id: "4",
-    name: "S-Series Comfort Chair",
-    image: "/images/main/flash-sales/image4.png",
-    price: 375,
-    oldPrice: 400,
-    discount: 25,
-    rating: 4.5,
-    reviews: 99,
-  },
-  {
-    id: "5",
-    name: "S-Series Comfort Chair 2",
-    image: "/images/main/flash-sales/image4.png",
-    price: 375,
-    oldPrice: 400,
-    discount: 25,
-    rating: 4.5,
-    reviews: 99,
-  },
-];
 
 // --- Helper Components ---
 
@@ -100,6 +60,77 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 export default function FlashSales() {
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { data: productsResponse, isLoading } = useGetProductsQuery({
+    page: 1,
+    limit: 100,
+  });
+
+  // getting flash sales products by filtering the name flashSales
+  const products: Product[] = productsResponse?.data || [];
+
+  const flashSalesProducts = products?.filter(
+    (product) => product?.flash_sales,
+  );
+  console.log(products);
+  const { user, token } = useSelector((state: any) => state.auth);
+
+  const [addToCart] = useAddToCartMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
+
+  // --- Reusable Auth Check ---
+  const handleProtectedAction = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    actionType: "Cart" | "Wishlist",
+    product: Product,
+  ) => {
+    e.preventDefault();
+    if (!user || !token) {
+      setIsModalOpen(true);
+      return;
+    }
+
+    if (actionType === "Cart") {
+      const cartItem = {
+        productId: product._id,
+        email: user.email,
+        name: product.name,
+        price: product.original_price,
+        image: product.image,
+        quantity: 1,
+      };
+
+      try {
+        await addToCart(cartItem).unwrap();
+        toast.success("Added to Cart!");
+      } catch (error) {
+        console.error("Failed to add to cart", error);
+      }
+    }
+
+    if (actionType === "Wishlist") {
+      const wishlistItem = {
+        productId: product._id,
+        userEmail: user.email,
+        name: product.name,
+        price: product.original_price,
+        image: product.image,
+        old_price: product.old_price,
+        discount_percent: product.discount_percent,
+        ratings: product.ratings,
+        reviews: product.reviews,
+      };
+
+      try {
+        await addToWishlist(wishlistItem).unwrap();
+        toast.success("Added to Wishlist!");
+      } catch (error) {
+        console.error("Failed to add to wishlist", error);
+      }
+    }
+  };
 
   // --- Countdown Logic ---
   const [timeLeft, setTimeLeft] = useState({
@@ -143,8 +174,47 @@ export default function FlashSales() {
     }
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <Container>
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="sm:max-w-106.25">
+          <DialogHeader className="flex flex-col items-center">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="#DB4444"
+                className="w-8 h-8"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                />
+              </svg>
+            </div>
+            <DialogTitle className="text-2xl font-bold">
+              You&#39;re not logged in
+            </DialogTitle>
+            <DialogDescription className="text-center pt-2">
+              Please sign in to your account to add items to your cart or
+              wishlist and continue shopping.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3 mt-4">
+            <Link
+              href="/signin"
+              className="w-full bg-[#DB4444] text-white py-3 rounded-md font-medium text-center hover:bg-red-700 transition-all"
+            >
+              Sign In
+            </Link>
+          </div>
+        </DialogContent>
+      </Dialog>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-8">
           <Label>Today&apos;s</Label>
@@ -241,24 +311,26 @@ export default function FlashSales() {
           className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {flashSalesProducts.map((product) => (
+          {flashSalesProducts.map((product: Product) => (
             <div
-              key={product.id}
-              className="min-w-65 snap-start group cursor-pointer"
+              key={product._id}
+              className="min-w-67.5 max-w-67.5 snap-start group cursor-pointer"
             >
               <div className="relative bg-[#F5F5F5] rounded-md h-62.5 flex items-center justify-center overflow-hidden mb-4 p-4">
-                <div className="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-medium px-3 py-1 rounded-md z-10">
-                  -{product.discount}%
-                </div>
-
+                {/* Wishlist Icon - PROTECTED */}
                 <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
+                  <button
+                    onClick={(e) =>
+                      handleProtectedAction(e, "Wishlist", product)
+                    }
+                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-[#DB4444] hover:text-white transition-all shadow-sm"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
-                      stroke="black"
+                      stroke="currentColor"
                       className="w-5 h-5"
                     >
                       <path
@@ -268,7 +340,7 @@ export default function FlashSales() {
                       />
                     </svg>
                   </button>
-                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
+                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -291,35 +363,39 @@ export default function FlashSales() {
                   </button>
                 </div>
 
-                <div className="relative w-full h-37.5">
+                <div className="relative w-full h-full">
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
-                    className="object-contain"
+                    className="w-full h-full mix-blend-multiply"
                   />
                 </div>
 
-                <button className="absolute bottom-0 left-0 w-full bg-black text-white py-2.5 font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                {/* Add To Cart Button - PROTECTED */}
+                <button
+                  onClick={(e) => handleProtectedAction(e, "Cart", product)}
+                  className="absolute bottom-0 left-0 w-full bg-black text-white py-3 font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                >
                   Add To Cart
                 </button>
               </div>
 
+              {/* Info section... */}
               <div className="flex flex-col gap-1">
-                <h3 className="text-black font-medium truncate">
+                <h3 className="text-black font-bold truncate">
                   {product.name}
                 </h3>
                 <div className="flex items-center gap-3">
-                  <span className="text-[#DB4444] font-medium">
-                    ${product.price}
+                  <span className="text-[#DB4444] font-bold">
+                    ${product.original_price}
                   </span>
-                  <span className="text-gray-500 line-through font-medium">
-                    ${product.oldPrice}
+                  <span className="text-gray-500 line-through text-sm">
+                    ${product.old_price}
                   </span>
                 </div>
-
-                <div className="flex items-center gap-2 mt-1">
-                  <StarRating rating={product.rating} />
+                <div className="flex items-center gap-2">
+                  <StarRating rating={product.ratings} />
                   <span className="text-gray-500 text-sm font-semibold">
                     ({product.reviews})
                   </span>

@@ -89,7 +89,7 @@ export default function ExploreProducts() {
 
       try {
         await addToCart(cartItem).unwrap();
-        toast("Added to Cart!");
+        toast.success("Added to Cart!");
       } catch (error) {
         console.error("Failed to add to cart", error);
       }
