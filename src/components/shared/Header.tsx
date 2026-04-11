@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useGetCartItemsQuery } from "@/redux/api/cartApi";
 import { useGetWishlistItemsQuery } from "@/redux/api/wishlistApi";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "Shop", href: "/" },
@@ -14,6 +15,8 @@ const navLinks = [
 ];
 
 const Header: React.FC = () => {
+  const pathname = usePathname();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -69,12 +72,14 @@ const Header: React.FC = () => {
               if (link.name === "Sign Up" && (user || token)) {
                 return null;
               }
-
+              const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition-all duration-300"
+                  className={`text-sm font-medium text-gray-600 hover:text-emerald-600 hover:bg-emerald-100 px-4 py-2 rounded-full transition-all duration-300 ${
+                    isActive ? "bg-emerald-100 text-emerald-6" : ""
+                  }`}
                 >
                   {link.name}
                 </Link>

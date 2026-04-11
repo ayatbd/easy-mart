@@ -39,7 +39,7 @@ const AdminSidebar = () => {
     <>
       {/* --- MOBILE MOBILE HEADER --- */}
       <div className="lg:hidden flex items-center justify-between bg-white px-4 py-3 border-b">
-        <h1 className="text-xl font-bold text-[#DB4444]">Exclusive</h1>
+        <h1 className="text-xl font-bold text-[#DB4444]">Easy Mart</h1>
         <button onClick={toggleSidebar} className="p-2 text-gray-600">
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -56,7 +56,7 @@ const AdminSidebar = () => {
         {/* Sidebar Header */}
         <div className="p-6 border-b hidden lg:block">
           <Link href="/admin">
-            <h1 className="text-2xl font-bold text-[#DB4444]">Exclusive</h1>
+            <h1 className="text-2xl font-bold text-[#DB4444]">Easy Mart</h1>
             <p className="text-xs text-gray-500 font-medium">ADMIN PANEL</p>
           </Link>
         </div>
@@ -69,7 +69,7 @@ const AdminSidebar = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                onClick={() => setIsOpen(false)} // Close sidebar on mobile after click
+                onClick={() => setIsOpen(false)}
                 className={`
                   flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
                   ${
