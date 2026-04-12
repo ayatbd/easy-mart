@@ -82,7 +82,6 @@ const StarRating = ({ rating }: { rating: number }) => {
 };
 
 export default function BestSellingProducts() {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: productsResponse, isLoading } = useGetProductsQuery({
@@ -96,7 +95,7 @@ export default function BestSellingProducts() {
   const bestSellingProducts = products?.filter(
     (product) => product?.best_selling && product?.best_selling === true,
   );
-  console.log(products);
+
   const { user, token } = useSelector((state: any) => state.auth);
 
   const [addToCart] = useAddToCartMutation();
@@ -154,23 +153,13 @@ export default function BestSellingProducts() {
     }
   };
 
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 300;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <Container>
       <ProductModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-8">
           <Label>This month</Label>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex flex-col md:flex-row md:items-end gap-10 md:gap-20">
               <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wider">
                 Best Selling Products
@@ -179,29 +168,22 @@ export default function BestSellingProducts() {
 
             <div className="flex items-center gap-2">
               {/* --- View All Button --- */}
-              <div className="mt-12 flex justify-center">
+              <div className="mt-4 sm:mt-0">
                 <Link
                   href="/products"
-                  className="bg-emerald-600 text-white px-12 py-2 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
+                  className="bg-emerald-600 text-white px-6 sm:px-10 text-sm sm:text-base  py-3 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
                 >
-                  View All Products
+                  View All
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        <div
-          ref={scrollRef}
-          className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
+        <div className="grid grid-flow-col auto-cols-[75%] sm:auto-cols-[50%] md:grid-flow-row md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-x-auto md:overflow-visible snap-x md:snap-none hide-scrollbar pb-4">
           {bestSellingProducts.map((product: Product) => (
-            <div
-              key={product._id}
-              className="min-w-67.5 max-w-67.5 snap-start group cursor-pointer"
-            >
-              <div className="relative bg-[#F5F5F5] rounded-md h-62.5 flex items-center justify-center overflow-hidden mb-4 p-4">
+            <div key={product._id} className="snap-start md:snap-none group">
+              <div className="relative bg-[#F5F5F5] rounded-md h-52 sm:h-56 md:h-60 lg:h-64 flex items-center justify-center overflow-hidden mb-4 p-4">
                 {/* Wishlist Icon - PROTECTED */}
                 <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
                   <button
