@@ -10,7 +10,7 @@ export default function AuthProvider({
   children: React.ReactNode;
 }) {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => (state as any)?.auth.token);
   const [skip, setSkip] = useState(true);
 
   // 1. On Mount, check if we have a token but NO user info
@@ -39,7 +39,7 @@ export default function AuthProvider({
       );
     }
     if (isError) {
-      dispatch(logout()); // Token might be expired or invalid
+      dispatch(logout());
     }
   }, [userData, isError, dispatch]);
 

@@ -4,12 +4,12 @@ import { useParams } from "next/navigation";
 import Container from "@/components/modules/Container";
 import Image from "next/image";
 import { useState } from "react";
-import { useGetProductByIdQuery } from "@/redux/api/exploreProductsApi"; // Ensure this exists
+import { useGetProductByIdQuery } from "@/redux/api/exploreProductsApi";
 
 export default function ProductDetails() {
-  const { id } = useParams();
-  const { data: productResponse, isLoading } = useGetProductByIdQuery(id);
-  const product = productResponse?.data;
+  const params = useParams();
+  const id = params?.id as string;
+  const { data: product, isLoading } = useGetProductByIdQuery(id);
 
   const [quantity, setQuantity] = useState(1);
 
@@ -20,7 +20,7 @@ export default function ProductDetails() {
 
   return (
     <Container>
-      <div className="py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="py-32 grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* Left: Image Gallery (Large View) */}
         <div className="bg-[#F5F5F5] rounded-lg p-10 flex items-center justify-center h-125">
           <div className="relative w-full h-full">

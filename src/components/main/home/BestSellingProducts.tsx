@@ -1,58 +1,28 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import Label from "@/components/modules/Label";
 import Container from "@/components/modules/Container";
+import ProductModal from "@/components/modals/ProductModal";
+import { useGetProductsQuery } from "@/redux/api/exploreProductsApi";
+import { useSelector } from "react-redux";
+import { useAddToCartMutation } from "@/redux/api/cartApi";
+import { useAddToWishlistMutation } from "@/redux/api/wishlistApi";
+import { toast } from "sonner";
+import Link from "next/link";
 
 interface Product {
-  id: string;
+  _id: string;
   name: string;
   image: string;
-  price: number;
-  oldPrice?: number;
-  rating: number;
+  original_price: number;
+  old_price: number;
+  discount_percent: number;
+  ratings: number;
   reviews: number;
+  best_selling: boolean;
 }
-
-const bestSellingProducts: Product[] = [
-  {
-    id: "1",
-    name: "The North Coat",
-    image: "/images/main/best-selling/image1.png",
-    price: 260,
-    oldPrice: 360,
-    rating: 5,
-    reviews: 65,
-  },
-  {
-    id: "2",
-    name: "Gucci Duffle Bag",
-    image: "/images/main/best-selling/image2.png",
-    price: 960,
-    oldPrice: 1160,
-    rating: 4.5,
-    reviews: 65,
-  },
-  {
-    id: "3",
-    name: "RGB Liquid CPU Cooler",
-    image: "/images/main/best-selling/image3.png",
-    price: 160,
-    oldPrice: 170,
-    rating: 4.5,
-    reviews: 65,
-  },
-  {
-    id: "4",
-    name: "Small Bookshelf",
-    image: "/images/main/best-selling/image4.png",
-    price: 360,
-    rating: 5,
-    reviews: 65,
-  },
-];
 
 const StarRating = ({ rating }: { rating: number }) => {
   return (
@@ -112,41 +82,140 @@ const StarRating = ({ rating }: { rating: number }) => {
 };
 
 export default function BestSellingProducts() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { data: productsResponse, isLoading } = useGetProductsQuery({
+    page: 1,
+    limit: 100,
+  });
+
+  // getting flash sales products by filtering the name flashSales
+  const products: Product[] = productsResponse?.data || [];
+
+  const bestSellingProducts = products?.filter(
+    (product) => product?.best_selling && product?.best_selling === true,
+  );
+  console.log(products);
+  const { user, token } = useSelector((state: any) => state.auth);
+
+  const [addToCart] = useAddToCartMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
+
+  // --- Reusable Auth Check ---
+  const handleProtectedAction = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    actionType: "Cart" | "Wishlist",
+    product: Product,
+  ) => {
+    e.preventDefault();
+    if (!user || !token) {
+      setIsModalOpen(true);
+      return;
+    }
+
+    if (actionType === "Cart") {
+      const cartItem = {
+        productId: product._id,
+        email: user.email,
+        name: product.name,
+        price: product.original_price,
+        image: product.image,
+        quantity: 1,
+      };
+
+      try {
+        await addToCart(cartItem).unwrap();
+        toast.success("Added to Cart!");
+      } catch (error) {
+        console.error("Failed to add to cart", error);
+      }
+    }
+
+    if (actionType === "Wishlist") {
+      const wishlistItem = {
+        productId: product._id,
+        userEmail: user.email,
+        name: product.name,
+        price: product.original_price,
+        image: product.image,
+        old_price: product.old_price,
+        discount_percent: product.discount_percent,
+        ratings: product.ratings,
+        reviews: product.reviews,
+      };
+
+      try {
+        await addToWishlist(wishlistItem).unwrap();
+        toast.success("Added to Wishlist!");
+      } catch (error) {
+        console.error("Failed to add to wishlist", error);
+      }
+    }
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 300;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <Container>
-      <section className="mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="mb-10">
-          <Label>Best Selling</Label>
+      <ProductModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="mb-8">
+          <Label>This month</Label>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="flex flex-col md:flex-row md:items-end gap-10 md:gap-20">
+              <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wider">
+                Best Selling Products
+              </h2>
+            </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-black tracking-wider">
-              Best Selling Products
-            </h2>
-
-            <Link
-              href="/products"
-              className="bg-emerald-600 text-white px-10 py-2 rounded-sm font-medium hover:bg-emerald-700 transition-colors whitespace-nowrap text-center"
-            >
-              View All
-            </Link>
+            <div className="flex items-center gap-2">
+              {/* --- View All Button --- */}
+              <div className="mt-12 flex justify-center">
+                <Link
+                  href="/products"
+                  className="bg-emerald-600 text-white px-12 py-2 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
+                >
+                  View All Products
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {bestSellingProducts.map((product) => (
+        <div
+          ref={scrollRef}
+          className="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {bestSellingProducts.map((product: Product) => (
             <div
-              key={product.id}
-              className="group cursor-pointer flex flex-col"
+              key={product._id}
+              className="min-w-67.5 max-w-67.5 snap-start group cursor-pointer"
             >
               <div className="relative bg-[#F5F5F5] rounded-md h-62.5 flex items-center justify-center overflow-hidden mb-4 p-4">
+                {/* Wishlist Icon - PROTECTED */}
                 <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
+                  <button
+                    onClick={(e) =>
+                      handleProtectedAction(e, "Wishlist", product)
+                    }
+                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-[#DB4444] hover:text-white transition-all shadow-sm"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
-                      stroke="black"
+                      stroke="currentColor"
                       className="w-5 h-5"
                     >
                       <path
@@ -156,7 +225,10 @@ export default function BestSellingProducts() {
                       />
                     </svg>
                   </button>
-                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm">
+                  <Link
+                    href={`/products/${product._id}`}
+                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -176,37 +248,42 @@ export default function BestSellingProducts() {
                         d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                       />
                     </svg>
-                  </button>
+                  </Link>
                 </div>
 
-                <div className="relative w-full h-40">
+                <div className="relative w-full h-full">
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    className="object-contain"
+                    className="w-full h-full mix-blend-multiply"
                   />
                 </div>
+
+                {/* Add To Cart Button - PROTECTED */}
+                <button
+                  onClick={(e) => handleProtectedAction(e, "Cart", product)}
+                  className="absolute bottom-0 left-0 w-full bg-black text-white py-3 font-medium translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+                >
+                  Add To Cart
+                </button>
               </div>
 
-              <div className="flex flex-col gap-1.5 flex-1">
-                <h3 className="text-black font-medium truncate">
+              {/* Info section... */}
+              <div className="flex flex-col gap-1">
+                <h3 className="text-black font-bold truncate">
                   {product.name}
                 </h3>
                 <div className="flex items-center gap-3">
-                  <span className="text-[#DB4444] font-medium">
-                    ${product.price}
+                  <span className="text-[#DB4444] font-bold">
+                    ${product.original_price}
                   </span>
-                  {product.oldPrice && (
-                    <span className="text-gray-500 line-through font-medium">
-                      ${product.oldPrice}
-                    </span>
-                  )}
+                  <span className="text-gray-500 line-through text-sm">
+                    ${product.old_price}
+                  </span>
                 </div>
-
-                <div className="flex items-center gap-2 mt-0.5">
-                  <StarRating rating={product.rating} />
+                <div className="flex items-center gap-2">
+                  <StarRating rating={product.ratings} />
                   <span className="text-gray-500 text-sm font-semibold">
                     ({product.reviews})
                   </span>
@@ -215,6 +292,17 @@ export default function BestSellingProducts() {
             </div>
           ))}
         </div>
+
+        {/* Add global style block just to hide the webkit scrollbar for a cleaner UI if tailwind plugin isn't installed */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+            .hide-scrollbar::-webkit-scrollbar {
+              display: none;
+            }
+          `,
+          }}
+        />
       </section>
     </Container>
   );

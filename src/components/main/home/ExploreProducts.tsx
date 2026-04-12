@@ -255,7 +255,10 @@ export default function ExploreProducts() {
                       />
                     </svg>
                   </button>
-                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm cursor-pointer">
+                  <Link
+                    href={`/products/${product._id}`}
+                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -275,7 +278,7 @@ export default function ExploreProducts() {
                         d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                       />
                     </svg>
-                  </button>
+                  </Link>
                 </div>
 
                 <div className="relative w-full h-full">
@@ -318,6 +321,15 @@ export default function ExploreProducts() {
               </div>
             </div>
           ))}
+        </div>
+        {/* --- View All Button --- */}
+        <div className="mt-12 flex justify-center">
+          <Link
+            href="/products"
+            className="bg-emerald-600 text-white px-12 py-3 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
+          >
+            View All Products
+          </Link>
         </div>
       </section>
     </Container>

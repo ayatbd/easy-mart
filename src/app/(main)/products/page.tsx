@@ -39,7 +39,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 export default function AllProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const limit = 10; // Products per page
+  const limit = 12; // Products per page
 
   const { data: productsResponse, isLoading } = useGetProductsQuery({
     page: currentPage,

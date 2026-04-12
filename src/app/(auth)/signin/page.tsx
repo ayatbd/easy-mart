@@ -22,12 +22,12 @@ export default function SignIn() {
     password: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError(""); // Clear error when typing
   };
 
-  const handleSignIn = async (e) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(""); // Reset error state
 
@@ -50,7 +50,7 @@ export default function SignIn() {
     } catch (err) {
       // This block will now catch the "Invalid password" or "User not found" errors
       const errorMessage =
-        err?.data?.message || "Login failed. Check your credentials.";
+        (err as any)?.data?.message || "Login failed. Check your credentials.";
       setError(errorMessage);
     }
   };
