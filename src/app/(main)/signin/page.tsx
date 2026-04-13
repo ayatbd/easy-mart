@@ -132,6 +132,19 @@ export default function SignIn() {
 
               <div className="flex flex-col gap-4 mt-2">
                 <button
+                  onClick={() => {
+                    setFormData({
+                      email: process.env.Demo_Email || "",
+                      password: process.env.Demo_Password || "",
+                    });
+                  }}
+                  type="submit"
+                  disabled={isLoading}
+                  className="underline text-emerald-600 hover:text-emerald-500 font-medium cursor-pointer"
+                >
+                  Demo Sign in as Admin
+                </button>
+                <button
                   type="submit"
                   disabled={isLoading}
                   className="w-full bg-emerald-600 text-white py-2 rounded-sm font-medium hover:bg-emerald-700 transition-colors disabled:bg-gray-400"

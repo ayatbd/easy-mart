@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useGetCartItemsQuery } from "@/redux/api/cartApi";
 import { useGetWishlistItemsQuery } from "@/redux/api/wishlistApi";
 import { usePathname } from "next/navigation";
+import ProfileDropdown from "../modules/ProfileDropdown";
 
 const navLinks = [
   { name: "Shop", href: "/" },
@@ -184,40 +185,8 @@ const Header: React.FC = () => {
               </span>
             </Link>
 
-            <button className="relative p-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-              </svg>
-            </button>
-
             {/* Mobile Menu Toggle (Visible only on small screens) */}
-            <button className="md:hidden p-2 text-gray-600 rounded-full">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 12h18M3 6h18M3 18h18"
-                />
-              </svg>
-            </button>
+            <ProfileDropdown />
           </div>
         </div>
       </div>
