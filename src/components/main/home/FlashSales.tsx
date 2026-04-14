@@ -75,7 +75,7 @@ export default function FlashSales() {
   const flashSalesProducts = products?.filter(
     (product) => product?.flash_sales,
   );
-  console.log(products);
+
   const { user, token } = useSelector((state: any) => state.auth);
 
   const [addToCart] = useAddToCartMutation();
