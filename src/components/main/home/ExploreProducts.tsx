@@ -19,6 +19,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAddToWishlistMutation } from "@/redux/api/wishlistApi";
+import { SpinnerBadge } from "@/app/loading";
 
 interface Product {
   _id: string;
@@ -127,8 +128,7 @@ export default function ExploreProducts() {
     }
   };
 
-  if (isLoading)
-    return <div className="py-20 text-center font-bold">Loading...</div>;
+  if (isLoading) return <SpinnerBadge />;
 
   return (
     <Container>

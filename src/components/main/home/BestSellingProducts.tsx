@@ -11,6 +11,7 @@ import { useAddToCartMutation } from "@/redux/api/cartApi";
 import { useAddToWishlistMutation } from "@/redux/api/wishlistApi";
 import { toast } from "sonner";
 import Link from "next/link";
+import { SpinnerBadge } from "@/app/loading";
 
 interface Product {
   _id: string;
@@ -152,6 +153,8 @@ export default function BestSellingProducts() {
       }
     }
   };
+
+  if (isLoading) return <SpinnerBadge />;
 
   return (
     <Container>
