@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
             <div className="flex flex-col gap-4">
               <h3 className="text-2xl font-bold tracking-wide mb-2">
-                Exclusive
+                Easy Mart
               </h3>
               <h4 className="text-xl font-medium">Subscribe</h4>
               <p className="text-base font-light">
@@ -250,7 +250,7 @@ export default function Footer() {
             strokeLinejoin="round"
           />
         </svg>
-        <span>Copyright Rimel 2022. All right reserved</span>
+        <span>Copyright Easy Mart 2026. All right reserved</span>
       </div>
     </footer>
   );

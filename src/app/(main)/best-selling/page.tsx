@@ -15,7 +15,7 @@ interface Product {
   discount_percent: number;
   ratings: number;
   reviews: number;
-  flash_sales: boolean;
+  best_selling: boolean;
 }
 
 // Star Rating Component
@@ -38,7 +38,7 @@ const StarRating = ({ rating }: { rating: number }) => {
   );
 };
 
-export default function AllFlashSalesPage() {
+export default function BestSellingProductsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 1000;
   const { data: productsResponse, isLoading } = useGetProductsQuery({
@@ -48,8 +48,8 @@ export default function AllFlashSalesPage() {
 
   const products: Product[] = productsResponse?.data || [];
 
-  const flashSalesProducts = products?.filter(
-    (product) => product?.flash_sales,
+  const bestSellingProducts = products?.filter(
+    (product) => product?.best_selling && product?.best_selling === true,
   );
 
   const totalPages = productsResponse?.totalPages || 1;
@@ -66,7 +66,7 @@ export default function AllFlashSalesPage() {
 
         {/* Responsive Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
-          {flashSalesProducts.map((product) => (
+          {bestSellingProducts.map((product) => (
             <div
               key={product._id}
               className="min-w-67.5 max-w-67.5 snap-start group"

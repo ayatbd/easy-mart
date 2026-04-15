@@ -173,7 +173,7 @@ export default function BestSellingProducts() {
               {/* --- View All Button --- */}
               <div className="mt-4 sm:mt-0">
                 <Link
-                  href="/products"
+                  href="/best-selling"
                   className="bg-emerald-600 text-white px-6 sm:px-10 text-sm sm:text-base  py-3 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
                 >
                   View All

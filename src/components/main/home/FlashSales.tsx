@@ -416,7 +416,7 @@ export default function FlashSales() {
         {/* --- View All Button --- */}
         <div className="mt-12 flex justify-center">
           <Link
-            href="/products"
+            href="/flash-sales"
             className="bg-emerald-600 text-white px-12 py-3 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
           >
             {isLoading ? <Spinner /> : "View All Products"}

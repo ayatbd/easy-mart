@@ -1,12 +1,17 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/features/auth/authSlice";
 
 export default function ProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Dispatch logout action
+  const dispatch = useDispatch();
+  const handleLogout = () => dispatch(logout());
 
   // Toggle dropdown
   const toggleDropdown = () => setIsOpen((prev) => !prev);
@@ -58,18 +63,17 @@ export default function ProfileDropdown() {
       {/* Dropdown */}
       {isOpen && (
         <ul className="absolute right-0 shadow-md border border-gray-200 bg-white p-2 mt-2 z-50 w-48 rounded-2xl max-h-96 overflow-auto">
-          {[
-            { text: "Dashboard", link: "/dashboard" },
-            { text: "Settings", link: "/" },
-            { text: "Sign out", link: "/signout" },
-          ].map((item) => (
-            <li
-              key={item.link}
-              className="py-2.5 px-4 hover:bg-gray-50 rounded-lg text-slate-600 text-sm cursor-pointer"
-            >
-              <Link href={item.link}>{item.text}</Link>
-            </li>
-          ))}
+          <li className="py-2.5 px-4 hover:bg-gray-50 rounded-lg text-slate-600 text-sm cursor-pointer">
+            <Link href="/dashboard">Dashboard</Link>
+          </li>
+          <li className="py-2.5 px-4 hover:bg-gray-50 rounded-lg text-slate-600 text-sm cursor-pointer">
+            <Link href="/settings">Settings</Link>
+          </li>
+          <li className="py-2.5 px-4 hover:bg-gray-50 rounded-lg text-slate-600 text-sm cursor-pointer">
+            <button onClick={handleLogout} className="w-full cursor-pointer">
+              Sign out
+            </button>
+          </li>
         </ul>
       )}
     </div>
