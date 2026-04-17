@@ -238,7 +238,7 @@ export default function ExploreProducts() {
                     onClick={(e) =>
                       handleProtectedAction(e, "Wishlist", product)
                     }
-                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-[#DB4444] hover:text-white transition-all shadow-sm"
+                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all shadow-sm cursor-pointer"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -257,7 +257,7 @@ export default function ExploreProducts() {
                   </button>
                   <Link
                     href={`/products/${product._id}`}
-                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
+                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all shadow-sm cursor-pointer"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

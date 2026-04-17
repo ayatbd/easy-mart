@@ -327,7 +327,7 @@ export default function FlashSales() {
                       onClick={(e) =>
                         handleProtectedAction(e, "Wishlist", product)
                       }
-                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-[#DB4444] hover:text-white transition-all shadow-sm"
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all shadow-sm cursor-pointer"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -346,7 +346,7 @@ export default function FlashSales() {
                     </button>
                     <Link
                       href={`/products/${product._id}`}
-                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
+                      className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all shadow-sm cursor-pointer"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -394,7 +394,7 @@ export default function FlashSales() {
                     {product.name}
                   </h3>
                   <div className="flex items-center gap-3">
-                    <span className="text-[#DB4444] font-bold">
+                    <span className="text-emerald-600 font-bold">
                       ${product.original_price}
                     </span>
                     <span className="text-gray-500 line-through text-sm">
@@ -419,7 +419,7 @@ export default function FlashSales() {
             href="/flash-sales"
             className="bg-emerald-600 text-white px-12 py-3 rounded-sm font-medium hover:bg-emerald-700 transition-colors"
           >
-            {isLoading ? <Spinner /> : "View All Products"}
+            {isLoading ? <Spinner /> : "View All"}
           </Link>
         </div>
 

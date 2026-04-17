@@ -70,7 +70,10 @@ export default function ProfileDropdown() {
             <Link href="/settings">Settings</Link>
           </li>
           <li className="py-2.5 px-4 hover:bg-gray-50 rounded-lg text-slate-600 text-sm cursor-pointer">
-            <button onClick={handleLogout} className="w-full cursor-pointer">
+            <button
+              onClick={handleLogout}
+              className="w-full text-start cursor-pointer"
+            >
               Sign out
             </button>
           </li>

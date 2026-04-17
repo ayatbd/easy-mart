@@ -40,7 +40,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 
 export default function AllFlashSalesPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const limit = 1000;
+  const limit = 12;
   const { data: productsResponse, isLoading } = useGetProductsQuery({
     page: currentPage,
     limit: limit,
@@ -75,7 +75,7 @@ export default function AllFlashSalesPage() {
               <div className="relative bg-[#F5F5F5] rounded-md h-62.5 flex items-center justify-center overflow-hidden mb-4 p-4">
                 {/* Wishlist/View Icons */}
                 <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
-                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-[#DB4444] hover:text-white transition-all shadow-sm">
+                  <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all shadow-sm cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -93,7 +93,7 @@ export default function AllFlashSalesPage() {
                   </button>
                   <Link
                     href={`/products/${product._id}`}
-                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
+                    className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all shadow-sm cursor-pointer"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +139,7 @@ export default function AllFlashSalesPage() {
                 </h3>
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3">
-                    <span className="text-[#DB4444] font-bold">
+                    <span className="text-emerald-600 font-bold">
                       ${product.original_price}
                     </span>
                     <span className="text-gray-500 line-through text-sm">
@@ -175,7 +175,7 @@ export default function AllFlashSalesPage() {
                 onClick={() => setCurrentPage(index + 1)}
                 className={`w-10 h-10 rounded-md border font-medium transition-all ${
                   currentPage === index + 1
-                    ? "bg-[#DB4444] text-white border-[#DB4444]"
+                    ? "bg-emerald-600 text-white border-emerald-600"
                     : "hover:bg-gray-50"
                 }`}
               >

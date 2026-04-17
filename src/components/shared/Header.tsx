@@ -106,7 +106,7 @@ const Header: React.FC = () => {
               </div>
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="p-2 text-gray-600 hover:bg-gray-100 rounded-full"
+                className="p-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all cursor-pointer"
               >
                 {isSearchOpen ? <X size={20} /> : <Search size={20} />}
               </button>
@@ -115,7 +115,7 @@ const Header: React.FC = () => {
             {/* Wishlist */}
             <Link
               href="/wishlist"
-              className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full"
+              className="relative p-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +141,7 @@ const Header: React.FC = () => {
             {/* Cart */}
             <Link
               href="/cart"
-              className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full"
+              className="relative p-2 text-gray-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-full transition-all cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
