@@ -83,7 +83,7 @@ export default function ProductDetails() {
               </button>
             </div>
 
-            <button className="flex-1 bg-[#DB4444] text-white font-bold py-3 rounded hover:bg-red-700 transition-colors">
+            <button className="flex-1 bg-emerald-500 text-white font-bold py-3 rounded hover:bg-emerald-600 transition-colors cursor-pointer">
               Buy Now
             </button>
           </div>
