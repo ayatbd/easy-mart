@@ -11,7 +11,6 @@ import {
   TrendingUp,
   Search,
 } from "lucide-react";
-import Link from "next/link";
 
 function AdminUserManagement() {
   // Mock Data for User Stats
@@ -87,58 +86,6 @@ function AdminUserManagement() {
 
   return (
     <div className="space-y-8">
-      {/* 1. Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">User Management</h1>
-          <p className="text-gray-500 text-sm">
-            Manage your customer base and administrative roles.
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <div className="relative">
-            <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              size={18}
-            />
-            <input
-              type="text"
-              placeholder="Search users..."
-              className="pl-10 pr-4 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-[#DB4444]"
-            />
-          </div>
-          <button className="bg-[#DB4444] hover:bg-[#c13a3a] text-white px-5 py-2.5 rounded-md flex items-center gap-2 transition-all font-medium text-sm">
-            <UserPlus size={18} />
-            Add User
-          </button>
-        </div>
-      </div>
-
-      {/* 2. Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
-          <div
-            key={index}
-            className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className={`p-2 rounded-lg ${stat.bg} ${stat.color}`}>
-                <stat.icon size={24} />
-              </div>
-              <span
-                className={`text-xs font-bold ${stat.color} flex items-center`}
-              >
-                {stat.change} <TrendingUp size={12} className="ml-1" />
-              </span>
-            </div>
-            <h3 className="text-gray-500 text-sm font-medium">{stat.title}</h3>
-            <p className="text-2xl font-bold text-gray-800 mt-1">
-              {stat.value}
-            </p>
-          </div>
-        ))}
-      </div>
-
       {/* 3. Main Content: User Table & Roles */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Users Table */}

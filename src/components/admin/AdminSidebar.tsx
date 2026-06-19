@@ -19,6 +19,7 @@ const AdminSidebar = () => {
 
   const menuItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Users", href: "/dashboard/users", icon: Users },
     { name: "Add Product", href: "/dashboard/add-product", icon: PlusCircle },
     {
       name: "All Products",
@@ -30,7 +31,6 @@ const AdminSidebar = () => {
       href: "/dashboard/manage-orders",
       icon: ShoppingCart,
     },
-    { name: "Users", href: "/admin/users", icon: Users },
   ];
 
   const toggleSidebar = () => setIsOpen(!isOpen);
