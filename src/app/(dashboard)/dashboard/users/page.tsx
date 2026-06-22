@@ -8,8 +8,6 @@ import {
   Mail,
   ShieldCheck,
   MoreVertical,
-  TrendingUp,
-  Search,
 } from "lucide-react";
 
 function AdminUserManagement() {

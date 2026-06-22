@@ -5,6 +5,7 @@ import Container from "@/components/modules/Container";
 import Image from "next/image";
 import { useState } from "react";
 import { useGetProductByIdQuery } from "@/redux/api/exploreProductsApi";
+import Link from "next/link";
 
 export default function ProductDetails() {
   const params = useParams();
@@ -84,7 +85,9 @@ export default function ProductDetails() {
             </div>
 
             <button className="flex-1 bg-emerald-500 text-white font-bold py-3 rounded hover:bg-emerald-600 transition-colors cursor-pointer">
-              Buy Now
+              <Link href={`/checkout?productId=${product.id}&quantity=${quantity}`}>
+                Buy Now
+              </Link>
             </button>
           </div>
 
