@@ -44,7 +44,7 @@ const slides = [
     title: `Lightweight. Powerful. Efficient.`,
   },
   {
-    id: 5,
+    id: 6,
     image: "/images/main/hero/slide-speaker.png",
     name: "Smart Home Speaker",
     title: `Fill your room with premium sound`,
