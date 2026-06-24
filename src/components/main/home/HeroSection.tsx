@@ -43,12 +43,6 @@ const slides = [
     name: "MacBook Air M3",
     title: `Lightweight. Powerful. Efficient.`,
   },
-  {
-    id: 6,
-    image: "/images/main/hero/slide-speaker.png",
-    name: "Smart Home Speaker",
-    title: `Fill your room with premium sound`,
-  },
 ];
 
 const categories: Category[] = [
