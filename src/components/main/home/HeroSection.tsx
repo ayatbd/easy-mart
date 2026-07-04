@@ -46,7 +46,6 @@ const slides = [
 ];
 
 const categories: Category[] = [
-  { name: "Woman's Fashion", hasSub: true, link: "" },
   { name: "Men's Fashion", hasSub: true, link: "" },
   { name: "Electronics", hasSub: false, link: "" },
   { name: "Home & Lifestyle", hasSub: false, link: "" },
