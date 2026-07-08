@@ -1,8 +1,7 @@
-import React from "react";
+import Container from "@/components/modules/Container";
+import Label from "@/components/modules/Label";
 import Image from "next/image";
 import Link from "next/link";
-import Label from "@/components/modules/Label";
-import Container from "@/components/modules/Container";
 
 export default function NewArrival() {
   return (

@@ -1,13 +1,12 @@
 "use client";
-import React from "react";
 import {
-  Users,
-  UserPlus,
+  Mail,
+  MoreVertical,
+  ShieldCheck,
   UserCheck,
   UserMinus,
-  Mail,
-  ShieldCheck,
-  MoreVertical,
+  UserPlus,
+  Users,
 } from "lucide-react";
 
 function AdminUserManagement() {

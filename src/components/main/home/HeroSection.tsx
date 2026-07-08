@@ -1,14 +1,14 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
-import { Pagination, Autoplay } from "swiper/modules";
 import Container from "@/components/modules/Container";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Types
 interface Category {

@@ -1,12 +1,11 @@
 "use client";
-import React from "react";
 import {
-  DollarSign,
-  ShoppingBag,
-  Package,
-  Users,
   ArrowUpRight,
+  DollarSign,
+  Package,
+  ShoppingBag,
   TrendingUp,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 
