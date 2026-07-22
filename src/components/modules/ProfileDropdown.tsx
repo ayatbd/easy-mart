@@ -2,7 +2,7 @@
 
 import { logout } from "@/redux/features/auth/authSlice";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function ProfileDropdown() {
@@ -18,6 +18,21 @@ export default function ProfileDropdown() {
 
   // Close dropdown
   const closeDropdown = () => setIsOpen(false);
+
+  // Handle outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        closeDropdown();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   return (
     <div ref={dropdownRef} className="relative w-max mx-auto">
